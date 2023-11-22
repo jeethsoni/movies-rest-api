@@ -1,11 +1,14 @@
-from flask import Flask, jsonify
+"""
+Flask app turns on here
+"""
+
+from flask import Flask
+from blueprints.health.blueprint import health_blueprint
 
 app = Flask(__name__)
 
-
-@app.route("/health", methods=["GET"])
-def health_check():
-    return jsonify(message="OK", status=200)
+# registers the blueprints
+app.register_blueprint(health_blueprint)
 
 
 if __name__ == "__main__":
