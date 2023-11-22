@@ -6,7 +6,7 @@ from flask import Blueprint, jsonify
 health_blueprint = Blueprint("health", __name__)
 
 
-@health_blueprint.route("/health", methods=["GET"])
+@health_blueprint.route("/v1/health", methods=["GET"])
 def health_check():
     """
     a GET handler for api health check
