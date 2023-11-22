@@ -1,5 +1,5 @@
 """
-Flask app turns on here
+Flask app entry point
 """
 
 from flask import Flask
