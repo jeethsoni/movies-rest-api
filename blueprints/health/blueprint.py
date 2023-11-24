@@ -18,7 +18,6 @@ def health_check():
 
     # executes the sql and returns timestamp
     sql = "SELECT CURRENT_TIMESTAMP;"
-
     data = do_query(sql, {})
 
     # checks the API and database health
