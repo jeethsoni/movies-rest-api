@@ -13,3 +13,9 @@ virtualenv flaskenv
 
 echo "activating virtual environment..."
 source flaskenv/bin/activate
+
+echo "installing dependencies"
+make install
+
+echo "starting api..."
+make run
