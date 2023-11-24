@@ -4,6 +4,7 @@ Flask app entry point
 
 from flask import Flask
 from blueprints.health.blueprint import health_blueprint
+from blueprints.movie.blueprint import movie_blueprint
 from db.Connection import Connection
 
 
@@ -20,6 +21,7 @@ app.conn = conn
 
 # registers the blueprints
 app.register_blueprint(health_blueprint)
+app.register_blueprint(movie_blueprint)
 
 
 if __name__ == "__main__":
