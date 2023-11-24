@@ -6,8 +6,14 @@ from flask import Flask
 from blueprints.health.blueprint import health_blueprint
 from db.Connection import Connection
 
+
 app = Flask(__name__)
 
+# pushes the application context
+ctx = app.app_context()
+ctx.push()
+
+# creates a Connection instance stores it in app.conn
 conn = Connection()
 app.conn = conn
 
