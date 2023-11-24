@@ -7,3 +7,4 @@ flask-pydantic
 pytest
 pytest-mock
 pytest-dotenv
+emoji
