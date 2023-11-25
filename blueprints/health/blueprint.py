@@ -1,7 +1,9 @@
 """
 blueprint for health check
 """
+import json
 import os
+import pprint
 from flask import Blueprint, jsonify
 from db.db_utils import do_query
 
@@ -18,10 +20,13 @@ def health_check():
 
     # executes the sql and returns timestamp
     sql = "SELECT CURRENT_TIMESTAMP;"
-    data = do_query(sql, {})
+    data = do_query(sql, [])
+
+    row = data["data"][0]
+    data_check = row.get("current_timestamp")
 
     # checks the API and database health
-    if data["status"] == 200:
-        return jsonify(api_health="OK", db_health="OK", status=200)
-    else:
+    if data_check is None or data["status"] == 500:
         return jsonify(db_health="NOT OK", status=500)
+
+    return jsonify(message="OK", database_health="OK", status=200)
