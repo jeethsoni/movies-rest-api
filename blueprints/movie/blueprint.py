@@ -26,7 +26,6 @@ def get_by_id(movie_id: int):
     """
     A GET handler. Returns record by a given identifier.
     """
-
     result = svc_get_by_id(movie_id)
 
     return jsonify(status=result["status"], data=result["data"])

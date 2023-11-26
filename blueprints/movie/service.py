@@ -6,7 +6,6 @@ def svc_get():
     """
     GET service to get all records
     """
-
     sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE};"
     result = do_query(sql, {})
 
