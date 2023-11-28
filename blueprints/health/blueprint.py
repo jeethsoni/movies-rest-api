@@ -1,9 +1,8 @@
 """
 blueprint for health check
 """
-import json
+
 import os
-import pprint
 from flask import Blueprint, jsonify
 from db.db_utils import do_query
 
@@ -22,6 +21,7 @@ def health_check():
     sql = "SELECT CURRENT_TIMESTAMP;"
     data = do_query(sql, [])
 
+    # checks if current timestamp returns timestamp or none
     row = data["data"][0]
     data_check = row.get("current_timestamp")
 
