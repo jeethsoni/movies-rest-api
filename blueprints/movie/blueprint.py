@@ -36,8 +36,10 @@ def post_movie():
     """
     A POST handler. Creates a new movie record
     """
+    # request object
+    payload = request.get_json()
 
-    result = svc_post()
+    result = svc_post(payload)
 
     if result["status"] == 200:
         status = 201

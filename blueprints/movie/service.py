@@ -24,13 +24,10 @@ def svc_get_by_id(id):
     return result
 
 
-def svc_post():
+def svc_post(payload):
     """
     POST service
     """
-
-    # request object
-    payload = request.get_json()
 
     # parameters for the query
     title = payload["title"]
