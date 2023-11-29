@@ -20,6 +20,8 @@ class Query():
         self.conn_pool = conn_pool
         # grabs a connection from the pool
         self.conn = self.conn_pool.getconn()
+        # set autocommit for the connection
+        self.conn.autocommit = True
         # opens a cursor to execute sql statements
         self.cursor = self.conn.cursor(cursor_factory=RealDictCursor)
 
