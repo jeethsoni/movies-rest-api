@@ -2,9 +2,9 @@
 blueprint for movie table
 """
 import os
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
-from blueprints.movie.service import svc_get, svc_get_by_id
+from blueprints.movie.service import svc_get, svc_get_by_id, svc_post
 
 
 version = os.getenv("VERSION")
@@ -29,3 +29,19 @@ def get_by_id(movie_id: int):
     result = svc_get_by_id(movie_id)
 
     return jsonify(status=result["status"], data=result["data"])
+
+
+@movie_blueprint.route("/movie/create", methods=["POST"])
+def post_movie():
+    """
+    A POST handler. Creates a new movie record
+    """
+
+    result = svc_post()
+
+    if result["status"] == 200:
+        status = 201
+    else:
+        status = result["status"]
+
+    return jsonify(status=status)
