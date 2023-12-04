@@ -4,7 +4,7 @@ blueprint for movie table
 import os
 from flask import Blueprint, jsonify, request
 
-from blueprints.movie.service import svc_get, svc_get_by_id, svc_post
+from blueprints.movie.service import svc_get, svc_get_by_id, svc_post, svc_put
 
 
 version = os.getenv("VERSION")
@@ -47,3 +47,21 @@ def post_movie():
         status = result["status"]
 
     return jsonify(status=status)
+
+
+@movie_blueprint.route("/movie/<movie_id>", methods=["PUT"])
+def put_movie(movie_id: int):
+    """
+    A PUT handler.
+    Updates a record by id
+    """
+
+    # request object
+    payload = request.get_json()
+
+    # primary key of the table
+    pk = movie_id
+
+    result = svc_put(payload, pk)
+
+    return jsonify(status=result["status"])
