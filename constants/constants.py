@@ -8,3 +8,4 @@ STATUS_OK = 200
 STATUS_ERR = 500
 
 MOVIE = "movie"
+MOVIE_REVIEW = "movie_review"
