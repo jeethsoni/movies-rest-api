@@ -4,7 +4,7 @@ blueprint for movie table
 import os
 from flask import Blueprint, jsonify, request
 
-from blueprints.movie.service import svc_get, svc_get_by_id, svc_post, svc_put
+from blueprints.movie.service import svc_delete, svc_get, svc_get_by_id, svc_post, svc_put
 
 
 version = os.getenv("VERSION")
@@ -60,5 +60,17 @@ def put_movie(movie_id: int):
     payload = request.get_json()
 
     result = svc_put(payload, movie_id)
+
+    return jsonify(status=result["status"])
+
+
+@movie_blueprint.route("/movie/<movie_id>", methods=["DELETE"])
+def delete_movie(movie_id: int):
+    """
+    A DELETE handler
+    Deletes a record by id
+    """
+
+    result = svc_delete(movie_id)
 
     return jsonify(status=result["status"])

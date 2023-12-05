@@ -89,3 +89,31 @@ def svc_put(payload, id):
     result = do_query(sql, params)
 
     return result
+
+
+def svc_delete(movie_id):
+    """
+    A DELETE service
+    """
+
+    # deletes from the child table first and then deletes from parent table
+    sql = (
+        # child table
+        """
+        DELETE FROM movies.movie_review WHERE movie_id = %(movie_id)s;
+        """
+
+        # parent table
+        f"""DELETE FROM {SCHEMA_NAME}.{MOVIE} WHERE movie_id = %(movie_id)s
+        RETURNING *;
+        """
+        )
+
+    params = {
+            "movie_id": movie_id
+            }
+
+    result = do_query(sql, params)
+    print(result)
+
+    return result
