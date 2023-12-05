@@ -62,8 +62,26 @@ def svc_put(payload, id):
     created_at = payload["created_at"]
 
     # SQL statement
-    sql = f"UPDATE {SCHEMA_NAME}.{MOVIE} SET title = %(title)s, description = %(description)s, movie_year = %(movie_year)s, rating = %(rating)s, runtime = %(runtime)s, votes = %(votes)s, revenue = %(revenue)s, metascore = %(metascore)s, created_at = %(created_at)s WHERE movie_id = %(id)s RETURNING *;"
-    params = {"title": title, "description": description, "movie_year": year, "rating": rating, "runtime": runtime, "votes": votes, "revenue": revenue, "metascore": metascore, "created_at": created_at, "id": id}
+    sql = (f"""
+            UPDATE {SCHEMA_NAME}.{MOVIE} SET title = %(title)s, description = %(description)s,
+            movie_year = %(movie_year)s, rating = %(rating)s, runtime = %(runtime)s,
+            votes = %(votes)s, revenue = %(revenue)s, metascore = %(metascore)s, 
+            created_at = %(created_at)s
+            WHERE movie_id = %(id)s
+            RETURNING *;""")
+
+    params = {
+                "title": title,
+                "description": description,
+                "movie_year": year,
+                "rating": rating,
+                "runtime": runtime,
+                "votes": votes,
+                "revenue": revenue,
+                "metascore": metascore,
+                "created_at": created_at,
+                "id": id
+            }
 
     result = do_query(sql, params)
 

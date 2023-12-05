@@ -59,9 +59,6 @@ def put_movie(movie_id: int):
     # request object
     payload = request.get_json()
 
-    # primary key of the table
-    pk = movie_id
-
-    result = svc_put(payload, pk)
+    result = svc_put(payload, movie_id)
 
     return jsonify(status=result["status"])
