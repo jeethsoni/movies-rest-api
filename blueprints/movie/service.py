@@ -1,5 +1,5 @@
 from db.db_utils import do_query
-from constants.constants import SCHEMA_NAME, MOVIE
+from constants.constants import MOVIE_REVIEW, SCHEMA_NAME, MOVIE
 
 
 def svc_get():
@@ -97,23 +97,47 @@ def svc_delete(movie_id):
     """
 
     # deletes from the child table first and then deletes from parent table
-    sql = (
+    child_table_sql = (
         # child table
+        f"""
+        DELETE FROM {SCHEMA_NAME}.{MOVIE_REVIEW} WHERE movie_id = %(movie_id)s;
         """
-        DELETE FROM movies.movie_review WHERE movie_id = %(movie_id)s;
-        """
+        )
 
-        # parent table
+    # parent table
+    parent_table_sql = (
         f"""DELETE FROM {SCHEMA_NAME}.{MOVIE} WHERE movie_id = %(movie_id)s
         RETURNING *;
         """
         )
 
+    # parameters for SQL
     params = {
             "movie_id": movie_id
             }
 
-    result = do_query(sql, params)
-    print(result)
+    # execute child table query
+    do_query(child_table_sql, params)
 
+    # execute parent table query
+    result = do_query(parent_table_sql, params)
+    return result
+
+
+def svc_exact_search(payload):
+    """
+    EXACT search service
+    """
+    field = payload["field"]
+    value = payload["value"]
+
+    search_condition = f"{field} = '{value}'"
+    sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE} WHERE {search_condition}"
+
+    params = {
+            "field": field,
+            "value": value
+            }
+
+    result = do_query(sql, params)
     return result

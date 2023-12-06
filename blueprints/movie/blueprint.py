@@ -4,7 +4,7 @@ blueprint for movie table
 import os
 from flask import Blueprint, jsonify, request
 
-from blueprints.movie.service import svc_delete, svc_get, svc_get_by_id, svc_post, svc_put
+from blueprints.movie.service import svc_delete, svc_exact_search, svc_get, svc_get_by_id, svc_post, svc_put
 
 
 version = os.getenv("VERSION")
@@ -74,3 +74,17 @@ def delete_movie(movie_id: int):
     result = svc_delete(movie_id)
 
     return jsonify(status=result["status"])
+
+
+@movie_blueprint.route("/movie/exact", methods=["POST"])
+def search_exact():
+    """
+    EXACT Search
+    Retrives all records from movies for exact value match
+    """
+
+    # request object
+    payload = request.get_json()
+
+    result = svc_exact_search(payload)
+    return jsonify(status=result["status"], data=result["data"])
