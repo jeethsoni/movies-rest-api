@@ -4,14 +4,23 @@ blueprint for movie table
 import os
 from flask import Blueprint, jsonify, request
 
-from blueprints.movie.service import svc_get, svc_get_by_id, svc_post
+from blueprints.movie.service import (
+                                        svc_delete,
+                                        svc_exact_search,
+                                        svc_get,
+                                        svc_get_by_id,
+                                        svc_in_search,
+                                        svc_like_search,
+                                        svc_post,
+                                        svc_put
+                                    )           
 
 
 version = os.getenv("VERSION")
 movie_blueprint = Blueprint("movie", __name__, url_prefix=version)
 
 
-@movie_blueprint.route("/movie/movies", methods={"GET"})
+@movie_blueprint.route("/movie/movies", methods=["GET"])
 def get_all_records():
     """
     A GET handler. Returns all records for customer.
@@ -41,9 +50,75 @@ def post_movie():
 
     result = svc_post(payload)
 
-    if result["status"] == 200:
-        status = 201
-    else:
-        status = result["status"]
+    status = result["status"]
+    if status == 200:
+        return jsonify(status=201)
 
     return jsonify(status=status)
+
+
+@movie_blueprint.route("/movie/<movie_id>", methods=["PUT"])
+def put_movie(movie_id: int):
+    """
+    A PUT handler.
+    Updates a record by id
+    """
+
+    # request object
+    payload = request.get_json()
+
+    result = svc_put(payload, movie_id)
+
+    return jsonify(status=result["status"])
+
+
+@movie_blueprint.route("/movie/<movie_id>", methods=["DELETE"])
+def delete_movie(movie_id: int):
+    """
+    A DELETE handler
+    Deletes a record by id
+    """
+
+    result = svc_delete(movie_id)
+
+    return jsonify(status=result["status"])
+
+
+@movie_blueprint.route("/movie/exact", methods=["POST"])
+def search_exact():
+    """
+    EXACT Search
+    Retrives all records from movies for exact value match
+    """
+
+    # request object
+    payload = request.get_json()
+
+    result = svc_exact_search(payload)
+    return jsonify(status=result["status"], data=result["data"])
+
+
+@movie_blueprint.route("/movie/like", methods=["POST"])
+def like_search():
+    """
+    LIKE SEARCH 
+    Retrives all records from movies for like value search
+    """
+
+    payload = request.get_json()
+
+    result = svc_like_search(payload)
+    return jsonify(status=result["status"], data=result["data"])
+
+
+@movie_blueprint.route("/movie/in", methods=["POST"])
+def in_search():
+    """
+    IN SEARCH
+    Retrives all records from movies for in value search
+    """
+
+    payload = request.get_json()
+
+    result = svc_in_search(payload)
+    return jsonify(status=result["status"], data=result["data"])
