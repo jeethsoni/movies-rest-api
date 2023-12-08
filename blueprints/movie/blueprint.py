@@ -4,7 +4,7 @@ blueprint for movie table
 import os
 from flask import Blueprint, jsonify, request
 
-from blueprints.movie.service import svc_delete, svc_exact_search, svc_get, svc_get_by_id, svc_post, svc_put
+from blueprints.movie.service import svc_delete, svc_exact_search, svc_get, svc_get_by_id, svc_in_search, svc_like_search, svc_post, svc_put
 
 
 version = os.getenv("VERSION")
@@ -87,4 +87,30 @@ def search_exact():
     payload = request.get_json()
 
     result = svc_exact_search(payload)
+    return jsonify(status=result["status"], data=result["data"])
+
+
+@movie_blueprint.route("/movie/like", methods=["POST"])
+def like_search():
+    """
+    LIKE SEARCH 
+    Retrives all records from movies for like value search
+    """
+
+    payload = request.get_json()
+
+    result = svc_like_search(payload)
+    return jsonify(status=result["status"], data=result["data"])
+
+
+@movie_blueprint.route("/movie/in", methods=["POST"])
+def in_search():
+    """
+    IN SEARCH
+    Retrives all records from movies for in value search
+    """
+
+    payload = request.get_json()
+
+    result = svc_in_search(payload)
     return jsonify(status=result["status"], data=result["data"])

@@ -104,7 +104,7 @@ def svc_delete(movie_id):
         """
         )
 
-    # parent table
+    # # parent table
     parent_table_sql = (
         f"""DELETE FROM {SCHEMA_NAME}.{MOVIE} WHERE movie_id = %(movie_id)s
         RETURNING *;
@@ -138,6 +138,47 @@ def svc_exact_search(payload):
             "field": field,
             "value": value
             }
+
+    result = do_query(sql, params)
+    return result
+
+
+def svc_like_search(payload):
+    """
+    LIKE search service
+    """
+
+    field = payload["field"]
+    value = payload["value"]
+
+    search_condition = f"{field} LIKE '%%{value}%%'"
+    sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE} WHERE {search_condition};"
+
+    params = {
+        "field": field,
+        "value": value
+    }
+
+    result = do_query(sql, params)
+    return result
+
+
+def svc_in_search(payload):
+    """
+    IN search service
+    """
+
+    field = payload["field"]
+    value = payload["value"]
+
+    in_search = f"{field} IN ('{value}')"
+
+    sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE} WHERE {in_search};"
+
+    params = {
+        "field": field,
+        "value": value
+    }
 
     result = do_query(sql, params)
     return result
