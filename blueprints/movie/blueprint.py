@@ -4,14 +4,23 @@ blueprint for movie table
 import os
 from flask import Blueprint, jsonify, request
 
-from blueprints.movie.service import svc_delete, svc_exact_search, svc_get, svc_get_by_id, svc_in_search, svc_like_search, svc_post, svc_put
+from blueprints.movie.service import (
+                                        svc_delete,
+                                        svc_exact_search,
+                                        svc_get,
+                                        svc_get_by_id,
+                                        svc_in_search,
+                                        svc_like_search,
+                                        svc_post,
+                                        svc_put
+                                    )           
 
 
 version = os.getenv("VERSION")
 movie_blueprint = Blueprint("movie", __name__, url_prefix=version)
 
 
-@movie_blueprint.route("/movie/movies", methods={"GET"})
+@movie_blueprint.route("/movie/movies", methods=["GET"])
 def get_all_records():
     """
     A GET handler. Returns all records for customer.
@@ -41,10 +50,9 @@ def post_movie():
 
     result = svc_post(payload)
 
-    if result["status"] == 200:
-        status = 201
-    else:
-        status = result["status"]
+    status = result["status"]
+    if status == 200:
+        return jsonify(status=201)
 
     return jsonify(status=status)
 
