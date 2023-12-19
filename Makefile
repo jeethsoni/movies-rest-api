@@ -9,5 +9,7 @@ lint:
 	pylint ./constants/*.py ./blueprints ./db/*.py app.py > lint.log
 print-lint:
 	cat lint.log
+black:
+	python3 -m black ./blueprints ./constants ./db app.py
 run:
 	python3 app.py

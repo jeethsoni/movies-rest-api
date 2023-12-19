@@ -1,17 +1,8 @@
-************* Module constants.__init__
-constants/__init__.py:1:0: C0304: Final newline missing (missing-final-newline)
 ************* Module movie.service
-blueprints/movie/service.py:42:0: C0301: Line too long (175/100) (line-too-long)
 blueprints/movie/service.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 blueprints/movie/service.py:15:18: W0622: Redefining built-in 'id' (redefined-builtin)
 blueprints/movie/service.py:50:21: W0622: Redefining built-in 'id' (redefined-builtin)
-************* Module movie.blueprint
-blueprints/movie/blueprint.py:16:37: C0303: Trailing whitespace (trailing-whitespace)
-************* Module Connection
-db/Connection.py:1:0: C0103: Module name "Connection" doesn't conform to snake_case naming style (invalid-name)
-************* Module Query
-db/Query.py:1:0: C0103: Module name "Query" doesn't conform to snake_case naming style (invalid-name)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.62/10 (previous run: 9.62/10, +0.00)
+Your code has been rated at 9.86/10 (previous run: 9.77/10, +0.09)
 

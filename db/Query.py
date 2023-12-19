@@ -8,10 +8,11 @@ from psycopg2.extras import RealDictCursor
 from flask import current_app as app
 
 
-class Query():
+class Query:
     """
     Query class
     """
+
     def __init__(self, conn_pool):
         """
         connection pool constructor
