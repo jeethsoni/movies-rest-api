@@ -17,5 +17,14 @@ source flaskenv/bin/activate
 echo "installing dependencies"
 make install
 
+echo "formatting code..."
+make black 
+
+echo "linting code..."
+make lint
+
+echo "printing lint results..."
+make print-lint
+
 echo "starting api..."
 make run
