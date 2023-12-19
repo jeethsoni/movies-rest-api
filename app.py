@@ -2,7 +2,9 @@
 Flask app entry point
 """
 
-from flask import Flask
+import emoji
+from flask import Flask, jsonify
+from werkzeug.exceptions import HTTPException, default_exceptions
 from blueprints.health.blueprint import health_blueprint
 from blueprints.movie.blueprint import movie_blueprint
 from db.Connection import Connection
@@ -17,6 +19,22 @@ ctx.push()
 # creates a Connection instance stores it in app.conn
 conn = Connection()
 app.conn = conn
+
+
+@app.errorhandler(Exception)
+def handle_error(err):
+    """
+    This function handles error
+    """
+    code = 500
+    if isinstance(err, HTTPException):
+        code = err.code
+    app.logger.error(emoji.emojize(":cross_mark: => " + str(err)))
+    return jsonify(error=str(err)), code
+
+
+for default_exception in default_exceptions:
+    app.register_error_handler(default_exception, handle_error)
 
 
 # registers the blueprints
