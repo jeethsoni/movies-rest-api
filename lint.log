@@ -4,5 +4,5 @@ blueprints/movie/service.py:15:18: W0622: Redefining built-in 'id' (redefined-bu
 blueprints/movie/service.py:50:21: W0622: Redefining built-in 'id' (redefined-builtin)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.86/10 (previous run: 9.77/10, +0.09)
+Your code has been rated at 9.86/10 (previous run: 9.86/10, +0.00)
 

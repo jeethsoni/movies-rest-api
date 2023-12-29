@@ -1,3 +1,6 @@
+"""
+Service file for movie
+"""
 from db.db_utils import do_query
 from constants.constants import MOVIE_REVIEW, SCHEMA_NAME, MOVIE
 
