@@ -5,15 +5,15 @@ import os
 from flask import Blueprint, jsonify, request
 
 from blueprints.movie.service import (
-                                        svc_delete,
-                                        svc_exact_search,
-                                        svc_get,
-                                        svc_get_by_id,
-                                        svc_in_search,
-                                        svc_like_search,
-                                        svc_post,
-                                        svc_put
-                                    )           
+    svc_delete,
+    svc_exact_search,
+    svc_get,
+    svc_get_by_id,
+    svc_in_search,
+    svc_like_search,
+    svc_post,
+    svc_put,
+)
 
 
 version = os.getenv("VERSION")
@@ -101,7 +101,7 @@ def search_exact():
 @movie_blueprint.route("/movie/like", methods=["POST"])
 def like_search():
     """
-    LIKE SEARCH 
+    LIKE SEARCH
     Retrives all records from movies for like value search
     """
 
