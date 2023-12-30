@@ -1,8 +1,4 @@
-************* Module movie.service
-blueprints/movie/service.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-blueprints/movie/service.py:15:18: W0622: Redefining built-in 'id' (redefined-builtin)
-blueprints/movie/service.py:50:21: W0622: Redefining built-in 'id' (redefined-builtin)
 
-------------------------------------------------------------------
-Your code has been rated at 9.86/10 (previous run: 9.86/10, +0.00)
+-------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 9.86/10, +0.14)
 
