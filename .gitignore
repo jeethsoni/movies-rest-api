@@ -1,3 +1,7 @@
 **/__pycache__
+<<<<<<< HEAD
+=======
+flaskenv
+>>>>>>> movie-blueprint
 logs
 *.log
