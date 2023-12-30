@@ -1,7 +1,6 @@
 **/__pycache__
-<<<<<<< HEAD
-=======
 flaskenv
->>>>>>> movie-blueprint
 logs
 *.log
+lint.log
+/Users/jeetsoni/code/python/movies-rest-api/lint.log
