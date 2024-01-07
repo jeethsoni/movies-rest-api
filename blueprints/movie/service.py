@@ -1,6 +1,7 @@
 """
 Service file for movie
 """
+import json
 from db.db_utils import do_query
 from constants.constants import MOVIE_REVIEW, SCHEMA_NAME, MOVIE
 
@@ -125,13 +126,21 @@ def svc_exact_search(payload):
     """
     EXACT search service
     """
-    field = payload["field"]
-    value = payload["value"]
 
-    search_condition = f"{field} = '{value}'"
+    search_condition = ""
+    search_fields = payload["fields"]
+
+    for idx, field_obj in enumerate(search_fields):
+        print(field_obj)
+        field = field_obj["field"]
+        value = field_obj["value"]
+        if idx == 0:
+            search_condition = f"{field} = '{value}'"
+
     sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE} WHERE {search_condition}"
-
     params = {"field": field, "value": value}
+
+    print(sql)
 
     result = do_query(sql, params)
     return result
@@ -141,11 +150,16 @@ def svc_like_search(payload):
     """
     LIKE search service
     """
+    search_fields = payload["fields"]
+    search_condition = ""
 
-    field = payload["field"]
-    value = payload["value"]
+    for idx, field_obj in enumerate(search_fields):
+        field = field_obj["field"]
+        value = field_obj["value"]
 
-    search_condition = f"{field} LIKE '%%{value}%%'"
+        if idx == 0:
+            search_condition = f"{field} LIKE '%%{value}%%'"
+
     sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE} WHERE {search_condition};"
 
     params = {"field": field, "value": value}
@@ -160,11 +174,17 @@ def svc_in_search(payload):
     """
 
     field = payload["field"]
-    value = payload["value"]
+    values = payload["value"]
+    in_clause = ""
 
-    in_search = f"{field} IN ('{value}')"
+    for idx, value in enumerate(values):
+        val = value["value"]
+        if idx == 0:
+            in_clause = f"'{val}'"
+        else:
+            in_clause = f"{in_clause},'{val}'"
 
-    sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE} WHERE {in_search};"
+    sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE} WHERE {field} IN ({in_clause});"
 
     params = {"field": field, "value": value}
 
