@@ -177,6 +177,7 @@ def svc_in_search(payload):
     values = payload["value"]
     in_clause = ""
 
+    # for loop to loop through the payload
     for idx, value in enumerate(values):
         val = value["value"]
         if idx == 0:
