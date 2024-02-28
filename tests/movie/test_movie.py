@@ -19,7 +19,7 @@ def fields_payload():
 @pytest.fixture
 def in_payload():
     """
-    in clause payload
+    fake in clause payload
     """
     faker_data = {}
     faker_data["field"] = "id"
@@ -31,8 +31,9 @@ def in_payload():
 @pytest.fixture
 def fake_data():
     """
-    Returns fake data
+    Returns fake data for movie table
     """
+
     fake = Faker()
     faker_data = {}
     faker_data["movie_id"] = fake.pyint()
@@ -57,16 +58,25 @@ def fake_id():
 
 
 def test_svc_get(mocker, fake_data):
+    """
+    GET service test function
+    """
+
+    # mocks the "do_query" function in service.py file
     mocker_sql = mocker.patch.object(service, "do_query")
+    # returns status and data from the mocked "do_query" function
     mocker_sql.return_value = {"status": STATUS_OK, "data": [fake_data]}
 
+    # executes the function and stores value in result variable
     result = service.svc_get()
     data = result["data"]
     status = result["status"]
 
+    # asserts if the data returned is in form of a list
     assert isinstance(data, list)
-    assert status == STATUS_OK
+    assert status == STATUS_OK  # asserts status code
 
+    # asserts data returned is matched with fake data
     assert data[0]["movie_id"] == fake_data["movie_id"]
     assert data[0]["title"] == fake_data["title"]
     assert data[0]["description"] == fake_data["description"]
@@ -80,16 +90,25 @@ def test_svc_get(mocker, fake_data):
 
 
 def test_svc_get_by_id(mocker, fake_data, fake_id):
+    """
+    GET BY ID service test function
+    """
+
+    # mocks the "do_query" function in service.py file
     mocker_sql = mocker.patch.object(service, "do_query")
+    # returns status and data from the mocked "do_query" function
     mocker_sql.return_value = {"status": STATUS_OK, "data": [fake_data]}
 
+    # executes the function and stores data and status in result variable
     result = service.svc_get_by_id(fake_id)
     data = result["data"]
     status = result["status"]
 
+    # asserts if the data returned is in form of a list
     assert isinstance(data, list)
     assert status == STATUS_OK
 
+    # asserts data returned is matched with fake data
     assert data[0]["movie_id"] == fake_data["movie_id"]
     assert data[0]["title"] == fake_data["title"]
     assert data[0]["description"] == fake_data["description"]
@@ -103,16 +122,25 @@ def test_svc_get_by_id(mocker, fake_data, fake_id):
 
 
 def test_svc_put(mocker, fake_data, fake_id):
+    """
+    PUT service test function
+    """
+
+    # mocks the "do_query" function in service.py file
     mocker_sql = mocker.patch.object(service, "do_query")
+    # returns status and data from the mocked "do_query" function
     mocker_sql.return_value = {"status": STATUS_OK, "data": [fake_data]}
 
+    # executes the function and stores data and status in result variable
     result = service.svc_put(fake_data, fake_id)
     data = result["data"]
     status = result["status"]
 
+    # asserts if the data returned is in form of a list
     assert isinstance(data, list)
     assert status == STATUS_OK
 
+    # asserts data returned is matched with fake data
     assert data[0]["movie_id"] == fake_data["movie_id"]
     assert data[0]["title"] == fake_data["title"]
     assert data[0]["description"] == fake_data["description"]
@@ -126,16 +154,25 @@ def test_svc_put(mocker, fake_data, fake_id):
 
 
 def test_svc_post(mocker, fake_data):
+    """
+    POST service test function
+    """
+
+    # mocks the "do_query" function in service.py file
     mocker_sql = mocker.patch.object(service, "do_query")
+    # returns status and data from the mocked "do_query" function
     mocker_sql.return_value = {"status": STATUS_OK, "data": [fake_data]}
 
+    # executes the function and stores data and status in result variable
     result = service.svc_post(fake_data)
     data = result["data"]
     status = result["status"]
 
+    # asserts if the data returned is in form of a list
     assert isinstance(data, list)
     assert status == STATUS_OK
 
+    # asserts data returned is matched with fake data
     assert data[0]["movie_id"] == fake_data["movie_id"]
     assert data[0]["title"] == fake_data["title"]
     assert data[0]["description"] == fake_data["description"]
@@ -149,16 +186,25 @@ def test_svc_post(mocker, fake_data):
 
 
 def test_svc_delete(mocker, fake_data, fake_id):
+    """
+    DELETE service test function
+    """
+
+    # mocks the "do_query" function in service.py file
     mocker_sql = mocker.patch.object(service, "do_query")
+    # returns status and data from the mocked "do_query" function
     mocker_sql.return_value = {"status": STATUS_OK, "data": [fake_data]}
 
+    # executes the function and stores data and status in result variable
     result = service.svc_delete(fake_id)
     data = result["data"]
     status = result["status"]
 
+    # asserts if the data returned is in form of a list
     assert isinstance(data, list)
     assert status == STATUS_OK
 
+    # asserts data returned is matched with fake data
     assert data[0]["movie_id"] == fake_data["movie_id"]
     assert data[0]["title"] == fake_data["title"]
     assert data[0]["description"] == fake_data["description"]
@@ -172,16 +218,25 @@ def test_svc_delete(mocker, fake_data, fake_id):
 
 
 def test_svc_by_in(mocker, fake_data, in_payload):
+    """
+    IN Search service test function
+    """
+
+    # mocks the "do_query" function in service.py file
     mocker_sql = mocker.patch.object(service, "do_query")
+    # returns status and data from the mocked "do_query" function
     mocker_sql.return_value = {"status": STATUS_OK, "data": [fake_data]}
 
+    # executes the function and stores data and status in result variable
     result = service.svc_in_search(in_payload)
     data = result["data"]
     status = result["status"]
 
+    # asserts if the data returned is in form of a list
     assert isinstance(data, list)
     assert status == STATUS_OK
 
+    # asserts data returned is matched with fake data
     assert data[0]["movie_id"] == fake_data["movie_id"]
     assert data[0]["title"] == fake_data["title"]
     assert data[0]["description"] == fake_data["description"]
@@ -195,16 +250,25 @@ def test_svc_by_in(mocker, fake_data, in_payload):
 
 
 def test_svc_by_like(mocker, fake_data, fields_payload):
+    """
+    LIKE search service test function
+    """
+
+    # mocks the "do_query" function in service.py file
     mocker_sql = mocker.patch.object(service, "do_query")
+    # returns status and data from the mocked "do_query" function
     mocker_sql.return_value = {"status": STATUS_OK, "data": [fake_data]}
 
+    # executes the function and stores data and status in result variable
     result = service.svc_like_search(fields_payload)
     data = result["data"]
     status = result["status"]
 
+    # asserts if the data returned is in form of a list
     assert isinstance(data, list)
     assert status == STATUS_OK
 
+    # asserts data returned is matched with fake data
     assert data[0]["movie_id"] == fake_data["movie_id"]
     assert data[0]["title"] == fake_data["title"]
     assert data[0]["description"] == fake_data["description"]
@@ -218,16 +282,25 @@ def test_svc_by_like(mocker, fake_data, fields_payload):
 
 
 def test_svc_by_exact(mocker, fake_data, fields_payload):
+    """
+    EXACT search service test function
+    """
+
+    # mocks the "do_query" function in service.py file
     mocker_sql = mocker.patch.object(service, "do_query")
+    # returns status and data from the mocked "do_query" function
     mocker_sql.return_value = {"status": STATUS_OK, "data": [fake_data]}
 
+    # executes the function and stores data and status in result variable
     result = service.svc_exact_search(fields_payload)
     data = result["data"]
     status = result["status"]
 
+    # asserts if the data returned is in form of a list
     assert isinstance(data, list)
     assert status == STATUS_OK
 
+    # asserts data returned is matched with fake data
     assert data[0]["movie_id"] == fake_data["movie_id"]
     assert data[0]["title"] == fake_data["title"]
     assert data[0]["description"] == fake_data["description"]
