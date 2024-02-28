@@ -44,3 +44,25 @@ def svc_post(payload):
     result = do_query(sql, params)
 
     return result
+
+
+def svc_put(payload, id):
+    
+    """
+    A PUT service
+    """
+
+    first_name = payload["first_name"]
+    last_name = payload["last_name"]
+    gender = payload["gender"]
+    age = payload["age"]
+
+    # SQL Statement
+    sql = f"""
+            UPDATE {SCHEMA_NAME}.{ACTOR} SET first_name = %(first_name)s, last_name = %(last_name)s,
+            gender = %(gender)s, age = %(age)s WHERE actor_id = %(id);"""
+    params = [first_name, last_name, gender, age, id]
+
+    result = do_query(sql, params)
+
+    return result
