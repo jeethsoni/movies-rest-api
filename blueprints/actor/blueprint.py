@@ -4,7 +4,7 @@ blueprint for actor table
 import os
 from flask import Blueprint, jsonify, request
 
-from blueprints.actor.service import svc_get, svc_get_by_id, svc_post
+from blueprints.actor.service import svc_get, svc_get_by_id, svc_post, svc_put, svc_delete
 
 
 version = os.getenv("VERSION")
@@ -32,7 +32,7 @@ def get_by_id(actor_id: int):
 
 
 @actor_blueprint.route("/actor/create", methods=["POST"])
-def post_movie():
+def post_actor():
     """
     A POST handler. Creates a new movie record
     """
@@ -46,3 +46,26 @@ def post_movie():
         return jsonify(status=201)
 
     return jsonify(status=status)
+
+
+@actor_blueprint.route("/actor/<actor_id>", methods=["PUT"])
+def put_actor(actor_id: int):
+    """
+    A PUT handler for actor table
+    """
+
+    payload = request.get_json()
+
+    result = svc_put(payload, actor_id)
+
+    return jsonify(status=result["status"], data=result["data"])
+
+
+@actor_blueprint.route("/actor/<actor_id>", methods=["DELETE"])
+def delete_actor(actor_id: int):
+    """
+    A DELETE handle
+    """
+
+    result = svc_delete(actor_id)
+    return jsonify(status=result["status"])

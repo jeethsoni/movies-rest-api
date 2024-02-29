@@ -47,7 +47,6 @@ def svc_post(payload):
 
 
 def svc_put(payload, id):
-    
     """
     A PUT service
     """
@@ -56,13 +55,37 @@ def svc_put(payload, id):
     last_name = payload["last_name"]
     gender = payload["gender"]
     age = payload["age"]
+    created_at = payload["created_at"]
 
     # SQL Statement
     sql = f"""
             UPDATE {SCHEMA_NAME}.{ACTOR} SET first_name = %(first_name)s, last_name = %(last_name)s,
-            gender = %(gender)s, age = %(age)s WHERE actor_id = %(id);"""
-    params = [first_name, last_name, gender, age, id]
+            gender = %(gender)s, age = %(age)s, created_at = %(created_at)s
+            WHERE actor_id = %(id)s
+            RETURNING *;"""
+
+    params = {
+        "first_name": first_name,
+        "last_name": last_name,
+        "gender": gender,
+        "age": age,
+        "created_at": created_at,
+        "id": id,
+    }
 
     result = do_query(sql, params)
+    return result
 
+
+def svc_delete(id):
+    """
+    A DELETE service
+    """
+
+    sql = f"DELETE FROM {SCHEMA_NAME}.{ACTOR} WHERE actor_id = %(id)s RETURNING *;"
+    params = {
+        "id": id,
+    }
+
+    result = do_query(sql, params)
     return result
