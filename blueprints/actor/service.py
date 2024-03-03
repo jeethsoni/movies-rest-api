@@ -89,3 +89,21 @@ def svc_delete(id):
 
     result = do_query(sql, params)
     return result
+
+
+def svc_exact_search(payload):
+    """
+    An Exact search service
+    """
+
+    field = payload["field"]
+    value = payload["value"]
+
+    exact_clause = f"{field} = '{value}';"
+    sql = f"SELECT * FROM {SCHEMA_NAME}.{ACTOR} WHERE {exact_clause}"
+
+    params = {"field": field, "value": value}
+
+    result = do_query(sql, params)
+
+    return result

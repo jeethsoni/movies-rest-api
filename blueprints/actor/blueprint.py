@@ -4,7 +4,14 @@ blueprint for actor table
 import os
 from flask import Blueprint, jsonify, request
 
-from blueprints.actor.service import svc_get, svc_get_by_id, svc_post, svc_put, svc_delete
+from blueprints.actor.service import (
+    svc_get,
+    svc_get_by_id,
+    svc_post,
+    svc_put,
+    svc_delete,
+    svc_exact_search,
+)
 
 
 version = os.getenv("VERSION")
@@ -69,3 +76,15 @@ def delete_actor(actor_id: int):
 
     result = svc_delete(actor_id)
     return jsonify(status=result["status"])
+
+
+@actor_blueprint.route("/actor/exact", methods=["POST"])
+def search_by_exact():
+    """
+    Exact search
+    """
+
+    payload = request.get_json()
+    result = svc_exact_search(payload)
+
+    return jsonify(status=result["status"], data=result["data"])
