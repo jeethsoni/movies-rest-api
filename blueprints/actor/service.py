@@ -107,3 +107,16 @@ def svc_exact_search(payload):
     result = do_query(sql, params)
 
     return result
+
+
+def svc_like_search(payload):
+    """
+    LIKE Search service
+    """
+
+    field = payload["field"]
+    value = payload["value"]
+    like_clause = ""
+
+    for idx, value in enumerate():
+        

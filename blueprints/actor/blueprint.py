@@ -88,3 +88,4 @@ def search_by_exact():
     result = svc_exact_search(payload)
 
     return jsonify(status=result["status"], data=result["data"])
+
