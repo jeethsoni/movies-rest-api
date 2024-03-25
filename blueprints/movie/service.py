@@ -131,7 +131,6 @@ def svc_exact_search(payload):
     search_fields = payload["fields"]
 
     for idx, field_obj in enumerate(search_fields):
-        print(field_obj)
         field = field_obj["field"]
         value = field_obj["value"]
         if idx == 0:
@@ -139,8 +138,6 @@ def svc_exact_search(payload):
 
     sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE} WHERE {search_condition}"
     params = {"field": field, "value": value}
-
-    print(sql)
 
     result = do_query(sql, params)
     return result
