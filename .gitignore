@@ -4,3 +4,4 @@ logs
 *.log
 lint.log
 **/.pytest_cache
+.env
