@@ -95,17 +95,19 @@ def svc_exact_search(payload):
     """
     An Exact search service
     """
+    search_fields = payload["fields"]
 
-    field = payload["field"]
-    value = payload["value"]
+    for idx, field_obj in enumerate(search_fields):
+        field = field_obj["field"]
+        value = field_obj["value"]
 
-    exact_clause = f"{field} = '{value}';"
+        if idx == 0:
+            exact_clause = f"{field} = '{value}';"
+
     sql = f"SELECT * FROM {SCHEMA_NAME}.{ACTOR} WHERE {exact_clause}"
-
     params = {"field": field, "value": value}
 
     result = do_query(sql, params)
-
     return result
 
 
@@ -148,7 +150,6 @@ def svc_in_search(payload):
             in_clause = f"{in_clause}, '{val}'"
 
     sql = f"SELECT * FROM {SCHEMA_NAME}.{ACTOR} WHERE {field} IN ({in_clause});"
-    print(sql)
     params = {"field": field, "value": value}
 
     result = do_query(sql, params)

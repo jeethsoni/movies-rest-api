@@ -164,7 +164,7 @@ def delete_actor(actor_id: int):
 
 
 @actor_blueprint.route("/actor/exact", methods=["POST"])
-@validate(body=FieldValueModel)
+@validate(body=SearchModel)
 def search_by_exact():
     """
     Exact search
