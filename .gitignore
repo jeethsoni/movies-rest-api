@@ -5,3 +5,4 @@ logs
 lint.log
 **/.pytest_cache
 .env
+**/.DS_Store
