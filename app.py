@@ -8,6 +8,7 @@ from werkzeug.exceptions import HTTPException, default_exceptions
 from blueprints.health.blueprint import health_blueprint
 from blueprints.movie.blueprint import movie_blueprint
 from blueprints.actor.blueprint import actor_blueprint
+from blueprints.genre.blueprint import genre_blueprint
 from db.Connection import Connection
 from logger import logger
 
@@ -46,6 +47,7 @@ for default_exception in default_exceptions:
 app.register_blueprint(health_blueprint)
 app.register_blueprint(movie_blueprint)
 app.register_blueprint(actor_blueprint)
+app.register_blueprint(genre_blueprint)
 
 
 if __name__ == "__main__":
