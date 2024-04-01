@@ -76,7 +76,7 @@ def svc_in_search(payload):
     """
 
     field = payload["field"]
-    values = payload["value"]
+    values = payload["values"]
     in_clause = ""
 
     for idx, value in enumerate(values):
@@ -106,7 +106,7 @@ def svc_like_search(payload):
         value = field_obj["value"]
 
         if idx == 0:
-            like_clause = f"{field} LIKE '{value}'"
+            like_clause = f"{field} LIKE '%%{value}%%'"
 
     sql = f"SELECT * FROM {SCHEMA_NAME}.{GENRE} WHERE {like_clause}"
     params = {
@@ -123,11 +123,15 @@ def svc_exact_search(payload):
     Exact search service
     """
 
-    field = payload["field"]
-    value = payload["value"]
-    exact_clause = f"{field} = '{value}'"
+    search_condition = ""
+    search_fields = payload["fields"]
 
-    sql = f"SELECT * FROM {SCHEMA_NAME}.{GENRE} WHERE {exact_clause};"
+    for idx, field_obj in enumerate(search_fields):
+        field = field_obj["field"]
+        value = field_obj["value"]
+        if idx == 0:
+            search_condition = f"{field} = '{value}'"
+    sql = f"SELECT * FROM {SCHEMA_NAME}.{GENRE} WHERE {search_condition};"
     params = {
         "field": field,
         "value": value
