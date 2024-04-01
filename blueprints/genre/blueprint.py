@@ -1,9 +1,12 @@
 """
 Genre table blueprint
 """
+from datetime import date, datetime
 import os
-
+from typing import Optional
+from flask_pydantic import validate
 from flask import Blueprint, jsonify, request
+from pydantic import BaseModel
 from blueprints.genre.service import (
     svc_delete,
     svc_exact_search,
@@ -15,11 +18,83 @@ from blueprints.genre.service import (
     svc_put,
 )
 
+
+class GenreItems(BaseModel):
+    """
+    Genre items
+    """
+
+    name: str
+    created_at: Optional[str]
+
+
+class GenreDataModel(BaseModel):
+    """
+    Genre Data Model
+    """
+
+    genre_id: int
+    name: str
+    created_at: Optional[str | date | datetime]
+
+
+class MessageModel(BaseModel):
+    """
+    Message model
+    """
+
+    message: str
+
+
+class ResponseModel(BaseModel):
+    """
+    Response Model
+    """
+
+    data: list[GenreDataModel | GenreItems]
+    status: int
+
+
+class FieldValueModel(BaseModel):
+    """
+    Field and Value model
+    """
+
+    field: str
+    value: str
+
+
+class SearchModel(BaseModel):
+    """
+    Search model
+    """
+
+    fields: list[FieldValueModel]
+
+
+class ValueModel(BaseModel):
+    """
+    Value Model
+    """
+
+    value: str | date | datetime
+
+
+class InModel(BaseModel):
+    """
+    In search model
+    """
+
+    field: str
+    values: list[ValueModel]
+
+
 version = os.getenv("VERSION")
 genre_blueprint = Blueprint("genre", __name__, url_prefix=version)
 
 
 @genre_blueprint.route("/genre/genres", methods=["GET"])
+@validate()
 def get_all_records():
     """
     GET all records
@@ -29,6 +104,7 @@ def get_all_records():
 
 
 @genre_blueprint.route("/genre/<genre_id>", methods=["GET"])
+@validate()
 def get_by_id(genre_id: int):
     """
     GET all by id
@@ -40,6 +116,7 @@ def get_by_id(genre_id: int):
 
 
 @genre_blueprint.route("/genre/create", methods=["POST"])
+@validate(body=GenreItems)
 def post_record():
     """
     Creates new record
@@ -59,6 +136,7 @@ def post_record():
 
 
 @genre_blueprint.route("/genre/<genre_id>", methods=["PUT"])
+@validate(body=GenreItems)
 def put_record(genre_id: int):
     """
     Updates a record
@@ -71,6 +149,7 @@ def put_record(genre_id: int):
 
 
 @genre_blueprint.route("/genre/<genre_id>", methods=["DELETE"])
+@validate()
 def delete_record(genre_id: int):
     """
     deletes a record
@@ -81,6 +160,7 @@ def delete_record(genre_id: int):
 
 
 @genre_blueprint.route("/genre/in", methods=["POST"])
+@validate(body=InModel)
 def search_by_in():
     """
     Searches records by in
@@ -93,6 +173,7 @@ def search_by_in():
 
 
 @genre_blueprint.route("/genre/like", methods=["POST"])
+@validate(SearchModel)
 def search_by_like():
     """
     Searchhes record by Like
@@ -105,6 +186,7 @@ def search_by_like():
 
 
 @genre_blueprint.route("/genre/exact", methods=["POST"])
+@validate(SearchModel)
 def search_by_exact():
     """
     Searchhes record by Like
