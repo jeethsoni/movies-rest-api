@@ -109,10 +109,7 @@ def svc_like_search(payload):
             like_clause = f"{field} LIKE '%%{value}%%'"
 
     sql = f"SELECT * FROM {SCHEMA_NAME}.{GENRE} WHERE {like_clause}"
-    params = {
-        "field": field,
-        "value": value
-    }
+    params = {"field": field, "value": value}
 
     result = do_query(sql, params)
     return result
@@ -132,10 +129,7 @@ def svc_exact_search(payload):
         if idx == 0:
             search_condition = f"{field} = '{value}'"
     sql = f"SELECT * FROM {SCHEMA_NAME}.{GENRE} WHERE {search_condition};"
-    params = {
-        "field": field,
-        "value": value
-    }
+    params = {"field": field, "value": value}
 
     result = do_query(sql, params)
     return result
