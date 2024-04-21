@@ -9,6 +9,7 @@ from blueprints.health.blueprint import health_blueprint
 from blueprints.movie.blueprint import movie_blueprint
 from blueprints.actor.blueprint import actor_blueprint
 from blueprints.genre.blueprint import genre_blueprint
+from blueprints.movie_actor.blueprint import movie_actor_blueprint
 from db.Connection import Connection
 from logger import logger
 
@@ -48,6 +49,7 @@ app.register_blueprint(health_blueprint)
 app.register_blueprint(movie_blueprint)
 app.register_blueprint(actor_blueprint)
 app.register_blueprint(genre_blueprint)
+app.register_blueprint(movie_actor_blueprint)
 
 
 if __name__ == "__main__":
