@@ -1,7 +1,14 @@
 import os
 
 from flask import Blueprint, jsonify, request
-from blueprints.movie_actor.service import svc_delete, svc_get, svc_get_by_id, svc_post
+from blueprints.movie_actor.service import (
+    svc_delete,
+    svc_exact_search,
+    svc_get,
+    svc_get_by_id,
+    svc_post,
+    svc_put,
+)
 
 
 version = os.getenv("VERSION")
@@ -44,6 +51,19 @@ def post_record():
         return jsonify(status=201)
 
 
+@movie_actor_blueprint.route("/movie_actor/<movie_id>/<actor_id>", methods=["PUT"])
+def put_record(movie_id: int, actor_id: int):
+    """
+    Updates a record
+    """
+    pkeys = f"{movie_id}"
+    pkeys = f"{pkeys}, {actor_id}"
+
+    payload = request.get_json()
+    result = svc_put(pkeys, payload)
+    return jsonify(status=result["status"], data=result["data"])
+
+
 @movie_actor_blueprint.route("/movie_actor/<movie_id>/<actor_id>", methods=["DELETE"])
 def delete_movie(movie_id: int, actor_id: int):
     """
@@ -58,4 +78,15 @@ def delete_movie(movie_id: int, actor_id: int):
     return jsonify(status=result["status"], data=result["data"])
 
 
+@movie_actor_blueprint.route("/movie_genre/exact", methods=["POST"])
+def search_exact():
+    """
+    EXACT Search
+    Retrives all records from movies for exact value match
+    """
 
+    # request object
+    payload = request.get_json()
+
+    result = svc_exact_search(payload)
+    return jsonify(status=result["status"], data=result["data"])
