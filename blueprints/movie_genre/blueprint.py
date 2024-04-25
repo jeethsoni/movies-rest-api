@@ -1,7 +1,72 @@
+from datetime import date, datetime
 import os
+from typing import Optional
 
 from flask import Blueprint, jsonify, request
-from blueprints.movie_genre.service import svc_delete, svc_exact_search, svc_get, svc_get_by_id, svc_post
+from pydantic import BaseModel
+from flask_pydantic import validate
+from blueprints.movie_genre.service import svc_delete, svc_exact_search, svc_get, svc_get_by_id, svc_post, svc_put
+
+
+class MovieGenreDataModel(BaseModel):
+    """
+    Genre Data Model
+    """
+
+    movie_id: int
+    genre_id: int
+    created_at: Optional[str | date | datetime]
+
+
+class MessageModel(BaseModel):
+    """
+    Message model
+    """
+
+    message: str
+
+
+class ResponseModel(BaseModel):
+    """
+    Response Model
+    """
+
+    data: list[MovieGenreDataModel]
+    status: int
+
+
+class FieldValueModel(BaseModel):
+    """
+    Field and Value model
+    """
+
+    field: str
+    value: str
+
+
+class SearchModel(BaseModel):
+    """
+    Search model
+    """
+
+    fields: list[FieldValueModel]
+
+
+class ValueModel(BaseModel):
+    """
+    Value Model
+    """
+
+    value: str | date | datetime
+
+
+class InModel(BaseModel):
+    """
+    In search model
+    """
+
+    field: str
+    values: list[ValueModel]
 
 
 version = os.getenv("VERSION")
@@ -9,6 +74,7 @@ movie_genre_blueprint = Blueprint("movie_genre", __name__, url_prefix=version)
 
 
 @movie_genre_blueprint.route("/movie_genre/movie_genres", methods=["GET"])
+@validate()
 def get_all_records():
     """
     Get all movie_genre records
@@ -19,6 +85,7 @@ def get_all_records():
 
 
 @movie_genre_blueprint.route("/movie_genre/<movie_id>/<genre_id>", methods=["GET"])
+@validate(body=MovieGenreDataModel)
 def get_by_id(movie_id: int, genre_id: int):
     """
     GET records by ID
@@ -31,6 +98,7 @@ def get_by_id(movie_id: int, genre_id: int):
 
 
 @movie_genre_blueprint.route("/movie_genre/create", methods=["POST"])
+@validate(body=MovieGenreDataModel)
 def post_record():
     """
     POST a new record
@@ -44,7 +112,17 @@ def post_record():
         return jsonify(status=201)
 
 
-#### PUT Route
+@movie_genre_blueprint.route("/movie_genre/<movie_id>/<genre_id>", methods=["PUT"])
+def put_record(movie_id: int, genre_id: int):
+    """
+    Updates a record
+    """
+    pkeys = f"{movie_id}"
+    pkeys = f"{pkeys}, {genre_id}"
+
+    payload = request.get_json()
+    result = svc_put(pkeys, payload)
+    return jsonify(status=result["status"], data=result["data"])
 
 
 @movie_genre_blueprint.route("/movie_genre/<movie_id>/<genre_id>", methods=["DELETE"])

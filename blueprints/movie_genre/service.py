@@ -41,22 +41,34 @@ def svc_post(payload):
     return result
 
 
-# def svc_put(id, payload):
-#     """
-#     PUT service
-#     """
-#     movie_id = payload["movie_id"]
-#     genre_id = payload["genre_id"]
-#     created_at = payload["created_at"]
+def svc_put(ids_, payload):
+    """
+    PUT service
+    """
 
-#     sql = f"""UPDATE {SCHEMA_NAME}.{MOVIE_GENRE} SET movie_id = %(movie_id)s,
-#         genre_id = %(genre_id)s, created_at = %(created_at)s
-#         WHERE genre_id = %(genre_id)s
-#         RETURNING *;"""
-#     params = {"name": name, "created_at": created_at, "genre_id": id}
+    # splitting the ids
+    ids = ids_.split(",")
 
-#     result = do_query(sql, params)
-#     return result
+    # payload
+    movie_id = payload["movie_id"]
+    genre_id = payload["genre_id"]
+
+    # deletes the record
+    delete_stat_sql = f"""DELETE FROM {SCHEMA_NAME}.{MOVIE_GENRE} 
+            WHERE movie_id = %(movie_id)s AND genre_id = %(genre_id)s
+            RETURNING *;"""
+    delete_sql_params = {"movie_id": ids[0], "genre_id": ids[1]}
+
+    insert_stat_sql = f"""INSERT INTO {SCHEMA_NAME}.{MOVIE_GENRE}(movie_id, genre_id)
+                        VALUES(%s, %s) RETURNING *;"""
+    insert_sql_params = [movie_id, genre_id]
+
+    # executes the query to delete the record from the table
+    do_query(delete_stat_sql, delete_sql_params)
+
+    # inserts the new record to the table
+    result = do_query(insert_stat_sql, insert_sql_params)
+    return result
 
 
 def svc_delete(ids_):
