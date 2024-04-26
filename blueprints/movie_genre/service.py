@@ -19,10 +19,8 @@ def svc_get_by_id(ids_):
     """
 
     ids = ids_.split(",")
-    print(ids)
     params = {"movie_id": ids[0], "genre_id": ids[1]}
     sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE_GENRE} WHERE movie_id = %(movie_id)s AND genre_id = %(genre_id)s;"
-    print(sql)
 
     result = do_query(sql, params)
     return result
