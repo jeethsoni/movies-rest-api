@@ -1,6 +1,10 @@
 import os
 
-from flask import Blueprint, jsonify, request
+from datetime import date, datetime
+from typing import Optional
+from flask_pydantic import validate
+from flask import Blueprint, request
+from pydantic import BaseModel
 from blueprints.movie_actor.service import (
     svc_delete,
     svc_get,
@@ -11,21 +15,75 @@ from blueprints.movie_actor.service import (
 )
 
 
+class MovieActorDataModel(BaseModel):
+    """
+    Genre Data Model
+    """
+
+    movie_id: int
+    actor_id: int
+    created_at: Optional[str | date | datetime]
+
+
+class MessageModel(BaseModel):
+    """
+    Message model
+    """
+
+    message: str
+
+
+class ResponseModel(BaseModel):
+    """
+    Response Model
+    """
+
+    data: list[MovieActorDataModel]
+    status: int
+
+
+class FieldValueModel(BaseModel):
+    """
+    Field and Value model
+    """
+
+    field: str
+    value: str | int
+
+
+class SearchModel(BaseModel):
+    """
+    Search model
+    """
+
+    fields: list[FieldValueModel]
+
+
+class PostModel(BaseModel):
+    """
+    Post Model
+    """
+
+    status: int
+
+
 version = os.getenv("VERSION")
 movie_actor_blueprint = Blueprint("movie_actor", __name__, url_prefix=version)
 
 
 @movie_actor_blueprint.route("/movie_actor/movie_actors", methods=["GET"])
+@validate()
 def get_all_records():
     """
     Get all movie_actor records
     """
 
     result = svc_get()
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_actor_blueprint.route("/movie_actor/<movie_id>/<actor_id>", methods=["GET"])
+@validate()
 def get_by_id(movie_id: int, actor_id: int):
     """
     GET records by ID
@@ -34,10 +92,11 @@ def get_by_id(movie_id: int, actor_id: int):
     pkeys = f"{pkeys}, {actor_id}"
 
     result = svc_get_by_id(pkeys)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_actor_blueprint.route("/movie_actor/create", methods=["POST"])
+@validate(body=MovieActorDataModel)
 def post_record():
     """
     POST a new record
@@ -48,10 +107,11 @@ def post_record():
 
     status = result["status"]
     if status == 200:
-        return jsonify(status=201)
+        return PostModel(status=201)
 
 
 @movie_actor_blueprint.route("/movie_actor/<movie_id>/<actor_id>", methods=["PUT"])
+@validate(body=MovieActorDataModel)
 def put_record(movie_id: int, actor_id: int):
     """
     Updates a record
@@ -61,10 +121,11 @@ def put_record(movie_id: int, actor_id: int):
 
     payload = request.get_json()
     result = svc_put(pkeys, payload)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_actor_blueprint.route("/movie_actor/<movie_id>/<actor_id>", methods=["DELETE"])
+@validate()
 def delete_movie(movie_id: int, actor_id: int):
     """
     A DELETE handler
@@ -75,10 +136,11 @@ def delete_movie(movie_id: int, actor_id: int):
     pkeys = f"{pkeys}, {actor_id}"
 
     result = svc_delete(pkeys)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_actor_blueprint.route("/movie_actor/exact", methods=["POST"])
+@validate(body=SearchModel)
 def search_exact():
     """
     EXACT Search
@@ -89,4 +151,4 @@ def search_exact():
     payload = request.get_json()
 
     result = svc_exact_search(payload)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
