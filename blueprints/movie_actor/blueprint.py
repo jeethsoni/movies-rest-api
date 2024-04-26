@@ -1,7 +1,14 @@
 import os
 
 from flask import Blueprint, jsonify, request
-from blueprints.movie_actor.service import svc_delete, svc_get, svc_get_by_id, svc_post, svc_put, svc_exact_search
+from blueprints.movie_actor.service import (
+    svc_delete,
+    svc_get,
+    svc_get_by_id,
+    svc_post,
+    svc_put,
+    svc_exact_search,
+)
 
 
 version = os.getenv("VERSION")

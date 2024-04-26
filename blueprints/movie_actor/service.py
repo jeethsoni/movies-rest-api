@@ -87,3 +87,23 @@ def svc_delete(ids_):
 
     result = do_query(sql, params)
     return result
+
+
+def svc_exact_search(payload):
+    """
+    EXACT search service
+    """
+
+    search_condition = ""
+    search_fields = payload["fields"]
+
+    for idx, field_obj in enumerate(search_fields):
+        field = field_obj["field"]
+        value = field_obj["value"]
+        if idx == 0:
+            search_condition = f"{field} = '{value}'"
+    sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE_ACTOR} WHERE {search_condition};"
+    params = {"field": field, "value": value}
+
+    result = do_query(sql, params)
+    return result
