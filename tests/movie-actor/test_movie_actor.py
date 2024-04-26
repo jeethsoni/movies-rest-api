@@ -1,6 +1,6 @@
 import pytest
 from faker import Faker
-from blueprints.movie_genre import service
+from blueprints.movie_actor import service
 from constants.constants import STATUS_OK
 
 
@@ -25,7 +25,7 @@ def fake_data():
     fake = Faker()
     faker_data = {}
     faker_data["movie_id"] = fake.pyint()
-    faker_data["genre_id"] = fake.pyint()
+    faker_data["actor_id"] = fake.pyint()
     faker_data["created_at"] = fake.pystr()
 
     return faker_data
@@ -56,7 +56,7 @@ def test_svc_get(mocker, fake_data):
     assert status == STATUS_OK
 
     assert data[0]["movie_id"] == fake_data["movie_id"]
-    assert data[0]["genre_id"] == fake_data["genre_id"]
+    assert data[0]["actor_id"] == fake_data["actor_id"]
     assert data[0]["created_at"] == fake_data["created_at"]
 
 
@@ -75,7 +75,7 @@ def test_svc_get_by_id(mocker, fake_data, fake_ids):
     assert status == STATUS_OK
 
     assert data[0]["movie_id"] == fake_data["movie_id"]
-    assert data[0]["genre_id"] == fake_data["genre_id"]
+    assert data[0]["actor_id"] == fake_data["actor_id"]
     assert data[0]["created_at"] == fake_data["created_at"]
 
 
@@ -95,7 +95,7 @@ def test_svc_post(mocker, fake_data):
     assert status == STATUS_OK
 
     assert data[0]["movie_id"] == fake_data["movie_id"]
-    assert data[0]["genre_id"] == fake_data["genre_id"]
+    assert data[0]["actor_id"] == fake_data["actor_id"]
     assert data[0]["created_at"] == fake_data["created_at"]
 
 
@@ -114,7 +114,7 @@ def test_svc_put(mocker, fake_data, fake_ids):
     assert status == STATUS_OK
 
     assert data[0]["movie_id"] == fake_data["movie_id"]
-    assert data[0]["genre_id"] == fake_data["genre_id"]
+    assert data[0]["actor_id"] == fake_data["actor_id"]
     assert data[0]["created_at"] == fake_data["created_at"]
 
 
@@ -134,7 +134,7 @@ def test_svc_delete(mocker, fake_data, fake_ids):
     assert status == STATUS_OK
 
     assert data[0]["movie_id"] == fake_data["movie_id"]
-    assert data[0]["genre_id"] == fake_data["genre_id"]
+    assert data[0]["actor_id"] == fake_data["actor_id"]
     assert data[0]["created_at"] == fake_data["created_at"]
 
 
@@ -154,5 +154,5 @@ def test_svc_exact_search(mocker, fields_payload, fake_data):
     assert status == STATUS_OK
 
     assert data[0]["movie_id"] == fake_data["movie_id"]
-    assert data[0]["genre_id"] == fake_data["genre_id"]
+    assert data[0]["actor_id"] == fake_data["actor_id"]
     assert data[0]["created_at"] == fake_data["created_at"]
