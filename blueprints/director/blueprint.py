@@ -19,7 +19,7 @@ from blueprints.director.service import (
 
 class DirectorItems(BaseModel):
     """
-     Items
+    Items
     """
 
     first_name: str
@@ -29,7 +29,7 @@ class DirectorItems(BaseModel):
 
 class DirectorDataModel(BaseModel):
     """
-     Data Model
+    Data Model
     """
 
     director_id: int
