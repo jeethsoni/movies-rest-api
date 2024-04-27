@@ -73,7 +73,9 @@ def svc_delete(id):
     A DELETE service
     """
 
-    sql = f"DELETE FROM {SCHEMA_NAME}.{DIRECTOR} WHERE director_id = %(id)s RETURNING *;"
+    sql = (
+        f"DELETE FROM {SCHEMA_NAME}.{DIRECTOR} WHERE director_id = %(id)s RETURNING *;"
+    )
     params = {
         "id": id,
     }
