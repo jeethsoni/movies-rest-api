@@ -12,6 +12,7 @@ from blueprints.genre.blueprint import genre_blueprint
 from blueprints.director.blueprint import director_blueprint
 from blueprints.movie_actor.blueprint import movie_actor_blueprint
 from blueprints.movie_genre.blueprint import movie_genre_blueprint
+from blueprints.movie_director.blueprint import movie_director_blueprint
 from db.Connection import Connection
 from logger import logger
 
@@ -54,6 +55,7 @@ app.register_blueprint(director_blueprint)
 app.register_blueprint(genre_blueprint)
 app.register_blueprint(movie_actor_blueprint)
 app.register_blueprint(movie_genre_blueprint)
+app.register_blueprint(movie_director_blueprint)
 
 
 if __name__ == "__main__":
