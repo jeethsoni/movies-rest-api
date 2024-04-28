@@ -56,8 +56,7 @@ def svc_put(ids_, payload):
 
     # deletes the record
     delete_stat_sql = f"""DELETE FROM {SCHEMA_NAME}.{MOVIE_DIRECTOR} 
-            WHERE movie_id = %(movie_id)s AND director_id = %(director_id)s
-            RETURNING *;"""
+                        WHERE movie_id = %(movie_id)s AND director_id = %(director_id)s;"""
     delete_sql_params = {"movie_id": ids[0], "director_id": ids[1]}
 
     insert_stat_sql = f"""INSERT INTO {SCHEMA_NAME}.{MOVIE_DIRECTOR}(movie_id, director_id)
