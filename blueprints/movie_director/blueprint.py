@@ -82,7 +82,9 @@ def get_all_records():
     return jsonify(status=result["status"], data=result["data"])
 
 
-@movie_director_blueprint.route("/movie_director/<movie_id>/<director_id>", methods=["GET"])
+@movie_director_blueprint.route(
+    "/movie_director/<movie_id>/<director_id>", methods=["GET"]
+)
 @validate()
 def get_by_id(movie_id: int, director_id: int):
     """
@@ -112,7 +114,9 @@ def post_record():
     return jsonify(status=status)
 
 
-@movie_director_blueprint.route("/movie_director/<movie_id>/<director_id>", methods=["PUT"])
+@movie_director_blueprint.route(
+    "/movie_director/<movie_id>/<director_id>", methods=["PUT"]
+)
 @validate(body=MovieDirectorDataModel)
 def put_record(movie_id: int, director_id: int):
     """
@@ -126,7 +130,9 @@ def put_record(movie_id: int, director_id: int):
     return jsonify(status=result["status"], data=result["data"])
 
 
-@movie_director_blueprint.route("/movie_director/<movie_id>/<director_id>", methods=["DELETE"])
+@movie_director_blueprint.route(
+    "/movie_director/<movie_id>/<director_id>", methods=["DELETE"]
+)
 @validate()
 def delete_movie(movie_id: int, director_id: int):
     """
