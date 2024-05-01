@@ -1,6 +1,10 @@
+from datetime import date, datetime
 import os
+from typing import Optional
 
 from flask import Blueprint, request, jsonify
+from pydantic import BaseModel
+from flask_pydantic import validate
 from blueprints.movie_review.service import (
     svc_delete,
     svc_exact_search,
@@ -13,11 +17,84 @@ from blueprints.movie_review.service import (
 )
 
 
+class MovieReviewItems(BaseModel):
+    """
+    MovieReview items
+    """
+
+    movie_id: int
+    review: int
+    created_at: Optional[str]
+
+
+class MovieReviewDataModel(BaseModel):
+    """
+    MovieReview Data Model
+    """
+
+    movie_id: int
+    review_id: int
+    review: int
+    created_at: Optional[str | date | datetime]
+
+
+class MessageModel(BaseModel):
+    """
+    Message model
+    """
+
+    message: str
+
+
+class ResponseModel(BaseModel):
+    """
+    Response Model
+    """
+
+    data: list[MovieReviewDataModel | MessageModel]
+    status: int
+
+
+class FieldValueModel(BaseModel):
+    """
+    Field and Value model
+    """
+
+    field: str
+    value: str
+
+
+class SearchModel(BaseModel):
+    """
+    Search model
+    """
+
+    fields: list[FieldValueModel]
+
+
+class ValueModel(BaseModel):
+    """
+    Value Model
+    """
+
+    value: str | date | datetime
+
+
+class InModel(BaseModel):
+    """
+    In search model
+    """
+
+    field: str
+    values: list[ValueModel]
+
+
 version = os.getenv("VERSION")
 movie_review_blueprint = Blueprint("movie_review", __name__, url_prefix=version)
 
 
 @movie_review_blueprint.route("/movie_review/movie_reviews", methods=["GET"])
+@validate()
 def get_all_records():
     """
     Get all movie_review records
@@ -28,6 +105,7 @@ def get_all_records():
 
 
 @movie_review_blueprint.route("/movie_review/<movie_id>/<review_id>", methods=["GET"])
+@validate()
 def get_by_id(movie_id: int, review_id: int):
     """
     GET records by ID
@@ -40,6 +118,7 @@ def get_by_id(movie_id: int, review_id: int):
 
 
 @movie_review_blueprint.route("/movie_review/create", methods=["POST"])
+@validate(body=MovieReviewItems)
 def post_record():
     """
     POST a new record
@@ -54,6 +133,7 @@ def post_record():
 
 
 @movie_review_blueprint.route("/movie_review/<movie_id>/<review_id>", methods=["PUT"])
+@validate(body=MovieReviewItems)
 def put_record(movie_id: int, review_id: int):
     """
     Updates a record
@@ -66,9 +146,8 @@ def put_record(movie_id: int, review_id: int):
     return jsonify(status=result["status"], data=result["data"])
 
 
-@movie_review_blueprint.route(
-    "/movie_review/<movie_id>/<review_id>", methods=["DELETE"]
-)
+@movie_review_blueprint.route("/movie_review/<movie_id>/<review_id>", methods=["DELETE"])
+@validate()
 def delete_movie(movie_id: int, review_id: int):
     """
     A DELETE handler
@@ -83,6 +162,7 @@ def delete_movie(movie_id: int, review_id: int):
 
 
 @movie_review_blueprint.route("/movie_review/in", methods=["POST"])
+@validate(body=InModel)
 def search_by_in():
     """
     Searches records by in
@@ -95,6 +175,7 @@ def search_by_in():
 
 
 @movie_review_blueprint.route("/movie_review/like", methods=["POST"])
+@validate(body=SearchModel)
 def search_by_like():
     """
     Searchhes record by Like
@@ -107,6 +188,7 @@ def search_by_like():
 
 
 @movie_review_blueprint.route("/movie_review/exact", methods=["POST"])
+@validate(body=SearchModel)
 def search_exact():
     """
     EXACT Search
