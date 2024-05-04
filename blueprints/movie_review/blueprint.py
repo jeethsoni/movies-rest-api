@@ -132,21 +132,21 @@ def post_record():
         return jsonify(status=201)
 
 
-@movie_review_blueprint.route("/movie_review/<movie_id>/<review_id>", methods=["PUT"])
+@movie_review_blueprint.route("/movie_review/<review_id>", methods=["PUT"])
 @validate(body=MovieReviewItems)
-def put_record(movie_id: int, review_id: int):
+def put_record(review_id: int):
     """
     Updates a record
     """
-    pkeys = f"{movie_id}"
-    pkeys = f"{pkeys}, {review_id}"
 
     payload = request.get_json()
-    result = svc_put(pkeys, payload)
+    result = svc_put(review_id, payload)
     return jsonify(status=result["status"], data=result["data"])
 
 
-@movie_review_blueprint.route("/movie_review/<movie_id>/<review_id>", methods=["DELETE"])
+@movie_review_blueprint.route(
+    "/movie_review/<movie_id>/<review_id>", methods=["DELETE"]
+)
 @validate()
 def delete_movie(movie_id: int, review_id: int):
     """
@@ -170,19 +170,6 @@ def search_by_in():
 
     payload = request.get_json()
     result = svc_in_search(payload)
-
-    return jsonify(status=result["status"], data=result["data"])
-
-
-@movie_review_blueprint.route("/movie_review/like", methods=["POST"])
-@validate(body=SearchModel)
-def search_by_like():
-    """
-    Searchhes record by Like
-    """
-
-    payload = request.get_json()
-    result = svc_like_search(payload)
 
     return jsonify(status=result["status"], data=result["data"])
 

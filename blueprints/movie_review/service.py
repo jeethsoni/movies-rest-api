@@ -32,39 +32,34 @@ def svc_post(payload):
     """
 
     movie_id = payload["movie_id"]
-    review_id = payload["review_id"]
     review = payload["review"]
 
-    sql = f"""INSERT INTO {SCHEMA_NAME}.{MOVIE_REVIEW}(movie_id, review_id, review)
-            VALUES(%s, %s, %s) RETURNING *;"""
-    params = [movie_id, review_id, review]
+    sql = f"""INSERT INTO {SCHEMA_NAME}.{MOVIE_REVIEW}(movie_id, review)
+            VALUES(%s, %s) RETURNING *;"""
+    params = [movie_id, review]
 
     result = do_query(sql, params)
     return result
 
 
-def svc_put(ids_, payload):
+def svc_put(id, payload):
     """
     PUT service
     """
 
-    # splitting the ids
-    ids = ids_.split(",")
-    movie_id = ids[0]
-    review_id = ids[1]
-
     # payload
+    movie_id = payload["movie_id"]
     review = payload["review"]
     created_at = payload["created_at"]
 
-    sql = f"""UPDATE {SCHEMA_NAME}.{MOVIE_REVIEW} SET review = %(review)s, 
-        created_at = %(created_at)s WHERE movie_id = %(movie_id)s AND review_id = %(review_id)s
+    sql = f"""UPDATE {SCHEMA_NAME}.{MOVIE_REVIEW} SET movie_id = %(movie_id)s, review = %(review)s, 
+        created_at = %(created_at)s WHERE review_id = %(review_id)s
         RETURNING *;"""
     params = {
         "review": review,
         "created_at": created_at,
         "movie_id": movie_id,
-        "review_id": review_id,
+        "review_id": id
     }
 
     result = do_query(sql, params)
@@ -106,28 +101,6 @@ def svc_in_search(payload):
             in_clause = f"{in_clause}, '{val}'"
 
     sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE_REVIEW} WHERE {field} IN ({in_clause});"
-    params = {"field": field, "value": value}
-
-    result = do_query(sql, params)
-    return result
-
-
-def svc_like_search(payload):
-    """
-    Like Search service
-    """
-
-    fields = payload["fields"]
-    like_clause = ""
-
-    for idx, field_obj in enumerate(fields):
-        field = field_obj["field"]
-        value = field_obj["value"]
-
-        if idx == 0:
-            like_clause = f"{field} LIKE '%%{value}%%'"
-
-    sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE_REVIEW} WHERE {like_clause}"
     params = {"field": field, "value": value}
 
     result = do_query(sql, params)
