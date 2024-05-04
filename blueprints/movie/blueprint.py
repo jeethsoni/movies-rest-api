@@ -131,9 +131,10 @@ def post_movie():
 
     result = svc_post(payload)
 
-    status = result["status"]
-    if status == 200:
-        return jsonify(status=201)
+    if result["status"] == 200:
+        status = 201
+    else:
+        status = result["status"]
 
     return PostModel(status=status)
 

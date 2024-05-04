@@ -131,11 +131,12 @@ def post_actor():
 
     result = svc_post(payload)
 
-    status = result["status"]
-    if status == 200:
-        return jsonify(status=201)
+    if result["status"] == 200:
+        status = 201
+    else:
+        status = result["status"]
 
-    return jsonify(status=status)
+    return PostModel(status=status)
 
 
 @actor_blueprint.route("/actor/<actor_id>", methods=["PUT"])

@@ -107,11 +107,12 @@ def post_record():
     payload = request.get_json()
     result = svc_post(payload)
 
-    status = result["status"]
-    if status == 200:
+    if result["status"] == 200:
         status = 201
+    else:
+        status = result["status"]
 
-    return jsonify(status=status)
+    return PostModel(status=status)
 
 
 @movie_director_blueprint.route(

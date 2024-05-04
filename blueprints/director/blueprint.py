@@ -124,9 +124,10 @@ def post_director():
 
     result = svc_post(payload)
 
-    status = result["status"]
-    if status == 200:
+    if result["status"] == 200:
         status = 201
+    else:
+        status = result["status"]
 
     return PostModel(status=status)
 

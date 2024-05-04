@@ -105,9 +105,12 @@ def post_record():
     payload = request.get_json()
     result = svc_post(payload)
 
-    status = result["status"]
-    if status == 200:
-        return PostModel(status=201)
+    if result["status"] == 200:
+        status = 201
+    else:
+        status = result["status"]
+
+    return PostModel(status=status)
 
 
 @movie_actor_blueprint.route("/movie_actor/<movie_id>/<actor_id>", methods=["PUT"])
