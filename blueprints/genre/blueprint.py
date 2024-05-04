@@ -51,7 +51,7 @@ class ResponseModel(BaseModel):
     Response Model
     """
 
-    data: list[GenreDataModel | GenreItems]
+    data: list[GenreDataModel | MessageModel]
     status: int
 
 

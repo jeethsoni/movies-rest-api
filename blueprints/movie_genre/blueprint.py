@@ -37,7 +37,7 @@ class ResponseModel(BaseModel):
     Response Model
     """
 
-    data: list[MovieGenreDataModel]
+    data: list[MovieGenreDataModel | MessageModel]
     status: int
 
 
