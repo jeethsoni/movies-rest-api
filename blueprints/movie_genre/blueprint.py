@@ -1,7 +1,7 @@
 import os
 from datetime import date, datetime
 from typing import Optional
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from pydantic import BaseModel
 from flask_pydantic import validate
 from blueprints.movie_genre.service import (

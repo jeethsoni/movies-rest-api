@@ -5,7 +5,7 @@ from datetime import date, datetime
 import os
 from typing import Optional
 from flask_pydantic import validate
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from pydantic import BaseModel
 from blueprints.genre.service import (
     svc_delete,
@@ -89,6 +89,14 @@ class InModel(BaseModel):
     values: list[ValueModel]
 
 
+class PostModel(BaseModel):
+    """
+    Post Model class
+    """
+
+    status: int | str
+
+
 version = os.getenv("VERSION")
 genre_blueprint = Blueprint("genre", __name__, url_prefix=version)
 
@@ -100,7 +108,7 @@ def get_all_records():
     GET all records
     """
     result = svc_get()
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @genre_blueprint.route("/genre/<genre_id>", methods=["GET"])
@@ -112,7 +120,7 @@ def get_by_id(genre_id: int):
 
     result = svc_get_by_id(genre_id)
     print(result)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @genre_blueprint.route("/genre/create", methods=["POST"])
@@ -132,7 +140,7 @@ def post_record():
     else:
         status = result["status"]
 
-    return jsonify(status=status)
+    return PostModel(status=status)
 
 
 @genre_blueprint.route("/genre/<genre_id>", methods=["PUT"])
@@ -145,7 +153,7 @@ def put_record(genre_id: int):
     payload = request.get_json()
 
     result = svc_put(genre_id, payload)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @genre_blueprint.route("/genre/<genre_id>", methods=["DELETE"])
@@ -156,7 +164,7 @@ def delete_record(genre_id: int):
     """
 
     result = svc_delete(genre_id)
-    return jsonify(status=result["status"])
+    return ResponseModel(status=result["status"])
 
 
 @genre_blueprint.route("/genre/in", methods=["POST"])
@@ -169,7 +177,7 @@ def search_by_in():
     payload = request.get_json()
     result = svc_in_search(payload)
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @genre_blueprint.route("/genre/like", methods=["POST"])
@@ -182,7 +190,7 @@ def search_by_like():
     payload = request.get_json()
     result = svc_like_search(payload)
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @genre_blueprint.route("/genre/exact", methods=["POST"])
@@ -195,4 +203,4 @@ def search_by_exact():
     payload = request.get_json()
     result = svc_exact_search(payload)
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])

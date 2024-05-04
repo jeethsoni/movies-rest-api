@@ -4,7 +4,7 @@ blueprint for movie table
 from datetime import date, datetime
 import os
 from typing import Optional
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from pydantic import BaseModel
 from flask_pydantic import validate
 
@@ -152,7 +152,7 @@ def put_movie(movie_id: int):
 
     result = svc_put(payload, movie_id)
 
-    return jsonify(status=result["status"])
+    return ResponseModel(status=result["status"])
 
 
 @movie_blueprint.route("/movie/<movie_id>", methods=["DELETE"])

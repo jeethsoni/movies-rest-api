@@ -1,7 +1,7 @@
 from datetime import date, datetime
 import os
 from typing import Optional
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from pydantic import BaseModel
 from flask_pydantic import validate
 
@@ -79,7 +79,7 @@ def get_all_records():
     """
 
     result = svc_get()
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_director_blueprint.route(
@@ -94,7 +94,7 @@ def get_by_id(movie_id: int, director_id: int):
     pkeys = f"{pkeys}, {director_id}"
 
     result = svc_get_by_id(pkeys)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_director_blueprint.route("/movie_director/create", methods=["POST"])
@@ -128,7 +128,7 @@ def put_record(movie_id: int, director_id: int):
 
     payload = request.get_json()
     result = svc_put(pkeys, payload)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_director_blueprint.route(
@@ -145,7 +145,7 @@ def delete_movie(movie_id: int, director_id: int):
     pkeys = f"{pkeys}, {director_id}"
 
     result = svc_delete(pkeys)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_director_blueprint.route("/movie_director/exact", methods=["POST"])
@@ -160,4 +160,4 @@ def search_exact():
     payload = request.get_json()
 
     result = svc_exact_search(payload)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])

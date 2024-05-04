@@ -3,7 +3,7 @@ blueprint for actor table
 """
 from datetime import date, datetime
 import os
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from pydantic import BaseModel
 from typing import Optional
 from flask_pydantic import validate
@@ -106,7 +106,7 @@ def get_all_records():
     """
     result = svc_get()
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @actor_blueprint.route("/actor/<actor_id>", methods=["GET"])
@@ -117,7 +117,7 @@ def get_by_id(actor_id: int):
     """
     result = svc_get_by_id(actor_id)
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @actor_blueprint.route("/actor/create", methods=["POST"])
@@ -150,7 +150,7 @@ def put_actor(actor_id: int):
 
     result = svc_put(payload, actor_id)
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @actor_blueprint.route("/actor/<actor_id>", methods=["DELETE"])
@@ -161,7 +161,7 @@ def delete_actor(actor_id: int):
     """
 
     result = svc_delete(actor_id)
-    return jsonify(status=result["status"])
+    return ResponseModel(status=result["status"])
 
 
 @actor_blueprint.route("/actor/exact", methods=["POST"])
@@ -174,7 +174,7 @@ def search_by_exact():
     payload = request.get_json()
     result = svc_exact_search(payload)
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @actor_blueprint.route("/actor/like", methods=["POST"])
@@ -187,7 +187,7 @@ def search_by_like():
     payload = request.get_json()
     result = svc_like_search(payload)
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @actor_blueprint.route("/actor/in", methods=["POST"])
@@ -200,4 +200,4 @@ def search_by_in():
     payload = request.get_json()
     result = svc_in_search(payload)
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])

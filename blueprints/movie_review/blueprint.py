@@ -2,7 +2,7 @@ from datetime import date, datetime
 import os
 from typing import Optional
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from pydantic import BaseModel
 from flask_pydantic import validate
 from blueprints.movie_review.service import (
@@ -11,7 +11,6 @@ from blueprints.movie_review.service import (
     svc_get,
     svc_get_by_id,
     svc_in_search,
-    svc_like_search,
     svc_post,
     svc_put,
 )
@@ -89,6 +88,14 @@ class InModel(BaseModel):
     values: list[ValueModel]
 
 
+class PostModel(BaseModel):
+    """
+    Post model class
+    """
+
+    status: int | str
+
+
 version = os.getenv("VERSION")
 movie_review_blueprint = Blueprint("movie_review", __name__, url_prefix=version)
 
@@ -101,7 +108,7 @@ def get_all_records():
     """
 
     result = svc_get()
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_review_blueprint.route("/movie_review/<movie_id>/<review_id>", methods=["GET"])
@@ -114,7 +121,7 @@ def get_by_id(movie_id: int, review_id: int):
     pkeys = f"{pkeys}, {review_id}"
 
     result = svc_get_by_id(pkeys)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_review_blueprint.route("/movie_review/create", methods=["POST"])
@@ -132,7 +139,7 @@ def post_record():
     else:
         status = result["status"]
 
-    return jsonify(status=status)
+    return PostModel(status=status)
 
 
 @movie_review_blueprint.route("/movie_review/<review_id>", methods=["PUT"])
@@ -144,7 +151,7 @@ def put_record(review_id: int):
 
     payload = request.get_json()
     result = svc_put(review_id, payload)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_review_blueprint.route(
@@ -161,7 +168,7 @@ def delete_movie(movie_id: int, review_id: int):
     pkeys = f"{pkeys}, {review_id}"
 
     result = svc_delete(pkeys)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_review_blueprint.route("/movie_review/in", methods=["POST"])
@@ -174,7 +181,7 @@ def search_by_in():
     payload = request.get_json()
     result = svc_in_search(payload)
 
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_review_blueprint.route("/movie_review/exact", methods=["POST"])
@@ -189,4 +196,4 @@ def search_exact():
     payload = request.get_json()
 
     result = svc_exact_search(payload)
-    return jsonify(status=result["status"], data=result["data"])
+    return ResponseModel(status=result["status"], data=result["data"])
