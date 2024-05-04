@@ -85,7 +85,7 @@ class ValueModel(BaseModel):
 
 class InModel(BaseModel):
     field: str
-    value: list[ValueModel]
+    values: list[ValueModel]
 
 
 class PostModel(BaseModel):

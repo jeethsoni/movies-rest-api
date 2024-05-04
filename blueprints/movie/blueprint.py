@@ -85,7 +85,7 @@ class InModel(BaseModel):
     """In Search model"""
 
     field: str
-    value: list[ValueModel]
+    values: list[ValueModel]
 
 
 class PostModel(BaseModel):

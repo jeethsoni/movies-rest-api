@@ -171,7 +171,7 @@ def svc_in_search(payload):
     """
 
     field = payload["field"]
-    values = payload["value"]
+    values = payload["values"]
     in_clause = ""
 
     # for loop to loop through the payload
