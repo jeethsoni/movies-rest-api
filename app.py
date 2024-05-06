@@ -63,7 +63,9 @@ app.register_blueprint(movie_actor_blueprint)
 app.register_blueprint(movie_genre_blueprint)
 app.register_blueprint(movie_director_blueprint)
 app.register_blueprint(movie_review_blueprint)
-app.register_error_handler(app)
+
+# registers the error handler
+register_error_handler(app)
 
 
 if __name__ == "__main__":
