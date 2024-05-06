@@ -1,7 +1,7 @@
 # movies-rest-api
 **Date - 05/04/24**
 
-**movieor - Jeet Soni**
+**Author - Jeet Soni**
 
 ---
 
@@ -138,7 +138,7 @@ Here's an overview of the movies database setup
 
 ## Run the project
 
-To turn on the API simple run:
+To turn on the API simply run:
 
 ```$ . ./flaskenv.sh```
 
