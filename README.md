@@ -5,6 +5,14 @@
 
 ---
 
+[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
+
+
+[![pytest](https://img.shields.io/badge/pytest-passing-brightgreen.svg)](https://pytest.org)
+
+[![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+
 ## Description
 
 Taking it step by step, and now combining all the pieces I've learned – from understanding ER-diagrams to actually building the API – I'm excited to present my first CRUD (create, read, update, delete) Rest-API using Python Flask. This API is designed specifically for managing movie data and effortlessly retrieves information from the database.
@@ -92,9 +100,56 @@ Here's an overview of the movies database setup
 | `/movie_actor/{exact}`  | `POST`  | Returns all records with exact match  |
 
 
+### movie_director
+
+| Endpoint | HTTP Method | Result |
+|:---|:---:|---|
+| `/movie_director/movie_directors`  | `GET`  | Gets all movie_directors  |
+| `/movie_director/{movie_id}{director_id}`  | `GET`  | Gets an actor by ID  |
+| `/movie_director/create`  | `POST`  | create a new movie_director  |
+| `/movie_director/{movie_id}{director_id}`  | `PUT`  | Updates an movie_director record by ID |
+| `/movie_director/{movie_id}{director_id}`  | `DELETE`  | Deletes an movie_director record by ID |
+| `/movie_director/{exact}`  | `POST`  | Returns all records with exact match  |
 
 
+### movie_genre
 
+| Endpoint | HTTP Method | Result |
+|:---|:---:|---|
+| `/movie_genre/movie_genres`  | `GET`  | Gets all movie_genres  |
+| `/movie_genre/{movie_id}{genre_id}`  | `GET`  | Gets an actor by ID  |
+| `/movie_genre/create`  | `POST`  | create a new movie_genre  |
+| `/movie_genre/{movie_id}{genre_id}`  | `PUT`  | Updates an movie_genre record by ID |
+| `/movie_genre/{movie_id}{genre_id}`  | `DELETE`  | Deletes an movie_genre record by ID |
+| `/movie_genre/{exact}`  | `POST`  | Returns all records with exact match  |
+
+
+### movie_review
+
+| Endpoint | HTTP Method | Result |
+|:---|:---:|---|
+| `/movie_review/movie_reviews`  | `GET`  | Gets all movie_reviews  |
+| `/movie_review/{movie_id}{review_id}`  | `GET`  | Gets an movie_review by ID  |
+| `/movie_review/create`  | `POST`  | create a new movie_review  |
+| `/movie_review/{review_id}`  | `PUT`  | Updates an movie_review record by ID |
+| `/movie_review/{review_id}`  | `DELETE`  | Deletes an movie_review record by ID |
+| `/movie_review/{exact}`  | `POST`  | Returns all records with exact match  |
+| `/movie_review/{in}`  | `POST`  | Returns multiple records with specified multiple values  |
+
+## Run the project
+
+To turn on the API simple run:
+
+```$ . ./flaskenv.sh```
+
+
+## Testing
+
+To ensure that the API runs smoothy as expected, I have used PyTest to test all my endpoints.
+
+**NOTE: Ensure you are in virtual environment, if not run the command above** 
+
+```$ pytest tests/```
 
 
 
