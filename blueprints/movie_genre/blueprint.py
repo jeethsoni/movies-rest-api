@@ -111,6 +111,7 @@ def post_record():
 
     return PostModel(status=status)
 
+
 @movie_genre_blueprint.route("/movie_genre/<movie_id>/<genre_id>", methods=["PUT"])
 @validate(body=MovieGenreDataModel)
 def put_record(movie_id: int, genre_id: int):

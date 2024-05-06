@@ -52,7 +52,7 @@ def svc_put(id, payload):
     review = payload["review"]
     created_at = payload["created_at"]
 
-    sql = f"""UPDATE {SCHEMA_NAME}.{MOVIE_REVIEW} SET movie_id = %(movie_id)s, review = %(review)s, 
+    sql = f"""UPDATE {SCHEMA_NAME}.{MOVIE_REVIEW} SET movie_id = %(movie_id)s, review = %(review)s,
         created_at = %(created_at)s WHERE review_id = %(review_id)s
         RETURNING *;"""
     params = {
@@ -75,7 +75,7 @@ def svc_delete(ids_):
     movie_id = ids[0]
     review_id = ids[1]
 
-    sql = f"""DELETE FROM {SCHEMA_NAME}.{MOVIE_REVIEW} 
+    sql = f"""DELETE FROM {SCHEMA_NAME}.{MOVIE_REVIEW}
             WHERE movie_id = %s AND review_id = %s
             RETURNING *;"""
     params = [movie_id, review_id]

@@ -1,7 +1,8 @@
 """
 Service file for movie
 """
-import json
+
+
 from db.db_utils import do_query
 from constants.constants import MOVIE_REVIEW, SCHEMA_NAME, MOVIE
 
@@ -43,7 +44,9 @@ def svc_post(payload):
     metascore = payload["metascore"]
 
     # SQL statement
-    sql = f"INSERT INTO {SCHEMA_NAME}.{MOVIE}(title, description, movie_year, rating, runtime, votes, revenue, metascore) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *;"
+    sql = f"""INSERT INTO {SCHEMA_NAME}.{MOVIE}
+    (title, description, movie_year, rating, runtime, votes, revenue, metascore) 
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *;"""
     params = [title, description, year, rating, runtime, votes, revenue, metascore]
 
     result = do_query(sql, params)
