@@ -151,6 +151,10 @@ To ensure that the API runs smoothy as expected, I have used PyTest to test all 
 
 ```$ pytest tests/```
 
+Hope you enjoy :)
+
+Jeet
+
 
 
 
