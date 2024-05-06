@@ -38,7 +38,7 @@ def in_payload():
     """
     faker_data = {}
     faker_data["field"] = "id"
-    faker_data["value"] = [{"value": 1}, {"value": 2}]
+    faker_data["values"] = [{"value": 1}, {"value": 2}]
 
     return faker_data
 
