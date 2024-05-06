@@ -59,7 +59,7 @@ def svc_put(id, payload):
         "review": review,
         "created_at": created_at,
         "movie_id": movie_id,
-        "review_id": id
+        "review_id": id,
     }
 
     result = do_query(sql, params)
