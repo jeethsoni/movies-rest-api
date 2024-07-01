@@ -58,7 +58,7 @@ class MessageModel(BaseModel):
 class ResponseModel(BaseModel):
     """Movie response model"""
 
-    status: str | int
+    status: int
     data: list[MovieDataModel | MessageModel]
 
 
@@ -149,10 +149,9 @@ def put_movie(movie_id: int):
 
     # request object
     payload = request.get_json()
-
     result = svc_put(payload, movie_id)
 
-    return ResponseModel(status=result["status"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @movie_blueprint.route("/movie/<movie_id>", methods=["DELETE"])
