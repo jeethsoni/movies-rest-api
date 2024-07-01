@@ -16,9 +16,10 @@ from blueprints.movie_director.blueprint import movie_director_blueprint
 from blueprints.movie_review.blueprint import movie_review_blueprint
 from db.Connection import Connection
 from logger import logger
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 logger = logger.configure_logger("default", "logs/flask.log")
 
 # pushes the application context
