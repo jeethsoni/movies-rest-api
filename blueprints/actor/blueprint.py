@@ -2,9 +2,8 @@
 blueprint for actor table
 """
 
-
-from datetime import date, datetime
 import os
+from datetime import date, datetime
 from flask import Blueprint, request
 from pydantic import BaseModel
 from typing import Optional
