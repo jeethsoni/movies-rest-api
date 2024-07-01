@@ -4,7 +4,7 @@ Service file for movie
 
 
 from db.db_utils import do_query
-from constants.constants import MOVIE_REVIEW, SCHEMA_NAME, MOVIE
+from constants.constants import MOVIE_ACTOR, MOVIE_DIRECTOR, MOVIE_GENRE, MOVIE_REVIEW, SCHEMA_NAME, MOVIE
 
 
 def svc_get():
@@ -102,14 +102,35 @@ def svc_delete(movie_id):
     """
 
     # deletes from the child table first and then deletes from parent table
-    child_table_sql = (
+    movie_review_sql = (
         # child table
         f"""
         DELETE FROM {SCHEMA_NAME}.{MOVIE_REVIEW} WHERE movie_id = %(movie_id)s;
         """
     )
 
-    # # parent table
+    movie_actor_sql = (
+        # child table
+        f"""
+        DELETE FROM {SCHEMA_NAME}.{MOVIE_ACTOR} WHERE movie_id = %(movie_id)s;
+        """
+    )
+
+    movie_director_sql = (
+        # child table
+        f"""
+        DELETE FROM {SCHEMA_NAME}.{MOVIE_DIRECTOR} WHERE movie_id = %(movie_id)s;
+        """
+    )
+
+    movie_genre_sql = (
+        # child table
+        f"""
+        DELETE FROM {SCHEMA_NAME}.{MOVIE_GENRE} WHERE movie_id = %(movie_id)s;
+        """
+    )
+
+    # parent table
     parent_table_sql = f"""DELETE FROM {SCHEMA_NAME}.{MOVIE} WHERE movie_id = %(movie_id)s
         RETURNING *;
         """
@@ -118,7 +139,10 @@ def svc_delete(movie_id):
     params = {"movie_id": movie_id}
 
     # execute child table query
-    do_query(child_table_sql, params)
+    do_query(movie_review_sql, params)
+    do_query(movie_actor_sql, params)
+    do_query(movie_director_sql, params)
+    do_query(movie_genre_sql, params)
 
     # execute parent table query
     result = do_query(parent_table_sql, params)
