@@ -1,3 +1,7 @@
+"""
+service file for movie_director
+"""
+
 from constants.constants import SCHEMA_NAME, MOVIE_DIRECTOR
 from db.db_utils import do_query
 
@@ -20,7 +24,9 @@ def svc_get_by_id(ids_):
 
     ids = ids_.split(",")
     params = {"movie_id": ids[0], "director_id": ids[1]}
-    sql = f"SELECT * FROM {SCHEMA_NAME}.{MOVIE_DIRECTOR} WHERE movie_id = %(movie_id)s AND director_id = %(director_id)s;"
+    sql = f"""SELECT * FROM {SCHEMA_NAME}.{MOVIE_DIRECTOR} 
+              WHERE movie_id = %(movie_id)s 
+              AND director_id = %(director_id)s;"""
 
     result = do_query(sql, params)
     return result

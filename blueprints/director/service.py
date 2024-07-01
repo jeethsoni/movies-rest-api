@@ -1,3 +1,5 @@
+"""Service file for director"""
+
 from db.db_utils import do_query
 from constants.constants import DIRECTOR, SCHEMA_NAME
 

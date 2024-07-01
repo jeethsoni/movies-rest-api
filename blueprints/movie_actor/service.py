@@ -1,3 +1,7 @@
+"""
+service file for movie_actor
+"""
+
 from constants.constants import SCHEMA_NAME, MOVIE_ACTOR
 from db.db_utils import do_query
 

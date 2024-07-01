@@ -1,3 +1,5 @@
+"""movie_director Tests"""
+
 import pytest
 from faker import Faker
 from blueprints.movie_director import service

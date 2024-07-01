@@ -1,3 +1,5 @@
+"""Genre Tests"""
+
 import pytest
 from faker import Faker
 from blueprints.genre import service

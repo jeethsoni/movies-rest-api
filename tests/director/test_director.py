@@ -1,3 +1,5 @@
+"""Director Tests"""
+
 import pytest
 from faker import Faker
 from blueprints.director import service

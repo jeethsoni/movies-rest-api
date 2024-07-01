@@ -1,7 +1,12 @@
-from datetime import date, datetime
-import os
-from typing import Optional
+"""
+blueprint for movie_genre
+"""
 
+
+import os
+
+from datetime import date, datetime
+from typing import Optional
 from flask import Blueprint, request
 from pydantic import BaseModel
 from flask_pydantic import validate

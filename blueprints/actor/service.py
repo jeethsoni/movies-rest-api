@@ -1,6 +1,8 @@
 """
 Service file for actor
 """
+
+
 from db.db_utils import do_query
 from constants.constants import ACTOR, SCHEMA_NAME
 

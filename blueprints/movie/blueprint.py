@@ -1,6 +1,7 @@
 """
 blueprint for movie table
 """
+
 from datetime import date, datetime
 import os
 from typing import Optional

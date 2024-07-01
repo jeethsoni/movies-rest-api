@@ -1,3 +1,5 @@
+"""Movie Tests"""
+
 import pytest
 from faker import Faker
 from blueprints.movie import service

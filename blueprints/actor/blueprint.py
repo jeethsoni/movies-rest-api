@@ -1,6 +1,8 @@
 """
 blueprint for actor table
 """
+
+
 from datetime import date, datetime
 import os
 from flask import Blueprint, request
@@ -80,10 +82,18 @@ class SearchModel(BaseModel):
 
 
 class ValueModel(BaseModel):
+    """
+    Value Model
+    """
+
     value: int | str | date | float
 
 
 class InModel(BaseModel):
+    """
+    In Model
+    """
+
     field: str
     values: list[ValueModel]
 

@@ -1,6 +1,7 @@
 """
 Genre table blueprint
 """
+
 from datetime import date, datetime
 import os
 from typing import Optional
@@ -184,7 +185,7 @@ def search_by_in():
 @validate(SearchModel)
 def search_by_like():
     """
-    Searchhes record by Like
+    Searches record by Like
     """
 
     payload = request.get_json()
@@ -197,7 +198,7 @@ def search_by_like():
 @validate(SearchModel)
 def search_by_exact():
     """
-    Searchhes record by Like
+    Searches record by Like
     """
 
     payload = request.get_json()

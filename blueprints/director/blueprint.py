@@ -1,7 +1,9 @@
+"""Director table blueprint"""
+
 from datetime import date, datetime
 import os
 from typing import Optional
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from pydantic import BaseModel
 from flask_pydantic import validate
 
@@ -73,10 +75,17 @@ class SearchModel(BaseModel):
 
 
 class ValueModel(BaseModel):
+    """
+    Value model
+    """
+
     value: int | str | date | float
 
 
 class InModel(BaseModel):
+    """
+    In model
+    """
     field: str
     values: list[ValueModel]
 
