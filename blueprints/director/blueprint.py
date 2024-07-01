@@ -86,6 +86,7 @@ class InModel(BaseModel):
     """
     In model
     """
+
     field: str
     values: list[ValueModel]
 
