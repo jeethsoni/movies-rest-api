@@ -170,7 +170,7 @@ def delete_actor(actor_id: int):
     """
 
     result = svc_delete(actor_id)
-    return ResponseModel(status=result["status"])
+    return ResponseModel(status=result["status"], data=result["data"])
 
 
 @actor_blueprint.route("/actor/exact", methods=["POST"])
