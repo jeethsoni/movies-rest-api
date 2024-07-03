@@ -93,6 +93,21 @@ def svc_delete(ids_):
     return result
 
 
+def svc_delete_movie(movie_id):
+    """
+    Delete service to delete all movie actors by given ID
+    """
+
+    sql = f"""
+        DELETE FROM {SCHEMA_NAME}.{MOVIE_ACTOR} WHERE movie_id = %s
+        RETURNING *;
+        """
+    params = [movie_id]
+
+    result = do_query(sql, params)
+    return result
+
+
 def svc_exact_search(payload):
     """
     EXACT search service

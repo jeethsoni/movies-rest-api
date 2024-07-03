@@ -133,7 +133,7 @@ def put_record(movie_id: int, genre_id: int):
 
 @movie_genre_blueprint.route("/movie_genre/<movie_id>/<genre_id>", methods=["DELETE"])
 @validate()
-def delete_movie(movie_id: int, genre_id: int):
+def delete_movie_genre(movie_id: int, genre_id: int):
     """
     A DELETE handler
     Deletes a record by id

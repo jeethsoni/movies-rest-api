@@ -12,6 +12,7 @@ from flask import Blueprint, request
 from pydantic import BaseModel
 from blueprints.movie_actor.service import (
     svc_delete,
+    svc_delete_movie,
     svc_get,
     svc_get_by_id,
     svc_post,
@@ -134,7 +135,7 @@ def put_record(movie_id: int, actor_id: int):
 
 @movie_actor_blueprint.route("/movie_actor/<movie_id>/<actor_id>", methods=["DELETE"])
 @validate()
-def delete_movie(movie_id: int, actor_id: int):
+def delete_movie_actor(movie_id: int, actor_id: int):
     """
     A DELETE handler
     Deletes a record by id
@@ -144,6 +145,18 @@ def delete_movie(movie_id: int, actor_id: int):
     pkeys = f"{pkeys}, {actor_id}"
 
     result = svc_delete(pkeys)
+    return ResponseModel(status=result["status"], data=result["data"])
+
+
+@movie_actor_blueprint.route("/movie_actor/movie/<movie_id>", methods=["DELETE"])
+@validate()
+def delete_movie(movie_id: int):
+    """
+    A DELETE handler
+    deletes all movie actors by movie_id
+    """
+
+    result = svc_delete_movie(movie_id)
     return ResponseModel(status=result["status"], data=result["data"])
 
 

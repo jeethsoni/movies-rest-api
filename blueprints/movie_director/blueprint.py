@@ -12,6 +12,7 @@ from flask_pydantic import validate
 
 from blueprints.movie_director.service import (
     svc_delete,
+    svc_delete_movie,
     svc_get,
     svc_get_by_id,
     svc_post,
@@ -140,7 +141,7 @@ def put_record(movie_id: int, director_id: int):
     "/movie_director/<movie_id>/<director_id>", methods=["DELETE"]
 )
 @validate()
-def delete_movie(movie_id: int, director_id: int):
+def delete_movie_director(movie_id: int, director_id: int):
     """
     A DELETE handler
     Deletes a record by id
@@ -150,6 +151,18 @@ def delete_movie(movie_id: int, director_id: int):
     pkeys = f"{pkeys}, {director_id}"
 
     result = svc_delete(pkeys)
+    return ResponseModel(status=result["status"], data=result["data"])
+
+
+@movie_director_blueprint.route("/movie_director/movie/<movie_id>", methods=["DELETE"])
+@validate()
+def delete_movie(movie_id: int):
+    """
+    A DELETE handler
+    deletes all movie director by movie_id
+    """
+
+    result = svc_delete_movie(movie_id)
     return ResponseModel(status=result["status"], data=result["data"])
 
 

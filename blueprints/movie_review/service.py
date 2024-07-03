@@ -89,6 +89,21 @@ def svc_delete(ids_):
     return result
 
 
+def svc_delete_movie(movie_id):
+    """
+    Delete service for to delete all movie reviews by given ID
+    """
+
+    sql = f"""
+        DELETE FROM {SCHEMA_NAME}.{MOVIE_REVIEW} WHERE movie_id = %s
+        RETURNING *;
+        """
+    params = [movie_id]
+
+    result = do_query(sql, params)
+    return result
+
+
 def svc_in_search(payload):
     """
     In Search service
