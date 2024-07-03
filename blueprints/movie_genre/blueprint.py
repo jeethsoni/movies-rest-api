@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from flask_pydantic import validate
 from blueprints.movie_genre.service import (
     svc_delete,
+    svc_delete_movie,
     svc_exact_search,
     svc_get,
     svc_get_by_id,
@@ -143,6 +144,18 @@ def delete_movie_genre(movie_id: int, genre_id: int):
     pkeys = f"{pkeys}, {genre_id}"
 
     result = svc_delete(pkeys)
+    return ResponseModel(status=result["status"], data=result["data"])
+
+
+@movie_genre_blueprint.route("/movie_genre/movie/<movie_id>", methods=["DELETE"])
+@validate()
+def delete_movie(movie_id: int):
+    """
+    A DELETE handler
+    deletes all movie genres by movie_id
+    """
+
+    result = svc_delete_movie(movie_id)
     return ResponseModel(status=result["status"], data=result["data"])
 
 
