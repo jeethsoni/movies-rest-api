@@ -12,6 +12,10 @@
 
 [![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+[![Swagger Docs](https://img.shields.io/badge/Swagger-API--Docs-brightgreen?logo=swagger)](http://localhost:5000/swagger-ui)
+
+[![Swagger UI](https://img.shields.io/badge/Swagger-UI-blue)](http://localhost:5000/swagger-ui)
+
 
 ## Description
 
@@ -142,6 +146,9 @@ To turn on the API simply run:
 
 ```$ . ./flaskenv.sh```
 
+After API is turned on,
+
+Go to **localhost:5000/api/docs** to access API documentation
 
 ## Testing
 
