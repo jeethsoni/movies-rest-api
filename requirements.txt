@@ -4,6 +4,8 @@ python-dotenv
 pylint
 black
 flask-pydantic
+flask-swagger-ui
+flask-swagger
 pytest
 pytest-mock
 pytest-dotenv
