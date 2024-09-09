@@ -17,20 +17,54 @@ from blueprints.movie_review.blueprint import movie_review_blueprint
 from db.Connection import Connection
 from logger import logger
 from flask_cors import CORS
+from flask_swagger_ui import get_swaggerui_blueprint
+from flask_swagger import swagger
+
 
 app = Flask(__name__)
 CORS(app)
+
+# logger setup 
 logger = logger.configure_logger("default", "logs/flask.log")
+app.logger = logger
 
 # pushes the application context
 ctx = app.app_context()
 ctx.push()
 
-app.logger = logger
-
 # creates a Connection instance stores it in app.conn
 conn = Connection()
 app.conn = conn
+
+
+# Swagger specification route
+@app.route("/swagger")
+def swagger_spec():
+    """
+    Generate the Swagger API specification
+    """
+    spec = swagger(app)
+
+    # Customize Swagger metadata
+    spec['info']['title'] = "Movies REST API"
+    spec['info']['version'] = "1.0.0"
+    spec['info']['description'] = (
+        "This is a REST API for managing movies and related information. "
+        "It allows clients to retrieve and manage movie-related data in a structured way."
+    )
+    spec['info']['contact'] = {
+        "name": "Movies API Support",
+        "email": "it.jsoni22@gmail.com"
+    }
+    return jsonify(spec)
+
+
+# swagger configs
+SWAGGER_URL = "/api/docs"
+API_URL = "/swagger"
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL, API_URL
+)
 
 
 def register_error_handler(app):
@@ -64,6 +98,7 @@ app.register_blueprint(movie_actor_blueprint)
 app.register_blueprint(movie_genre_blueprint)
 app.register_blueprint(movie_director_blueprint)
 app.register_blueprint(movie_review_blueprint)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 # registers the error handler
 register_error_handler(app)
